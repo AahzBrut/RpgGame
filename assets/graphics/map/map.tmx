@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="11">
  <tileset firstgid="1" source="map.tsx"/>
+ <tileset firstgid="145" name="Entities" tilewidth="48" tileheight="48" tilecount="2" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="48" height="48" source="player-idle-south_000.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="slime-idle_000.png"/>
+  </tile>
+ </tileset>
  <layer id="1" name="ground" width="32" height="18">
   <data encoding="base64" compression="zlib">
    eJyTYmBgkBphmBeHuCqR+hkp1E8sxmXPUMPUChdqhi962OJKEyMd4wsXSSLjZyilY2rnYVLDlJhwpsQsemN8bh/MeLCGKzHpkx5pmJbupycGAJE3Oi8=
   </data>
  </layer>
+ <objectgroup id="4" name="entities">
+  <object id="1" name="Player" type="Player" gid="145" x="-8.19669" y="283.392" width="48" height="48"/>
+  <object id="2" name="Slime" type="Slime" gid="146" x="184.539" y="151.146" width="32" height="32"/>
+  <object id="3" name="Slime" type="Slime" gid="146" x="86.994" y="133.162" width="32" height="32"/>
+  <object id="4" name="Slime" type="Slime" gid="146" x="280.448" y="181.662" width="32" height="32"/>
+  <object id="5" name="Slime" type="Slime" gid="146" x="377.448" y="55.7807" width="32" height="32"/>
+  <object id="6" name="Slime" type="Slime" gid="146" x="471.723" y="262.314" width="32" height="32"/>
+  <object id="7" name="Slime" type="Slime" gid="146" x="376.903" y="245.42" width="32" height="32"/>
+  <object id="8" name="Slime" type="Slime" gid="146" x="185.628" y="277.027" width="32" height="32"/>
+  <object id="9" name="Slime" type="Slime" gid="146" x="7.97744" y="37.7977" width="32" height="32"/>
+  <object id="10" name="Slime" type="Slime" gid="146" x="72.2806" y="214.904" width="32" height="32"/>
+ </objectgroup>
  <layer id="2" name="background1" width="32" height="18">
   <data encoding="base64" compression="zlib">
    eJxjYBgFxALDgXYAlYAMEMtSwZxwIE4G4nwqmIUNUMudxAB0vyDHdS4Q82DBrUhqaOlWJhLFcQFPKtnviUOcXEAo7KjlfxggNd1S235SAbo9sPAixX5i0ieu8o0U/9OiTIDZg55+yQl/cvIAG4ni5ABKyw96lpXDCQAAcOgJeg==

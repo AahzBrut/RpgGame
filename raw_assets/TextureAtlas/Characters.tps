@@ -173,57 +173,73 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../characters/player/player-0.png</key>
-            <key type="filename">../characters/player/player-1.png</key>
-            <key type="filename">../characters/player/player-10.png</key>
-            <key type="filename">../characters/player/player-11.png</key>
-            <key type="filename">../characters/player/player-12.png</key>
-            <key type="filename">../characters/player/player-13.png</key>
-            <key type="filename">../characters/player/player-14.png</key>
-            <key type="filename">../characters/player/player-15.png</key>
-            <key type="filename">../characters/player/player-16.png</key>
-            <key type="filename">../characters/player/player-17.png</key>
-            <key type="filename">../characters/player/player-18.png</key>
-            <key type="filename">../characters/player/player-19.png</key>
-            <key type="filename">../characters/player/player-2.png</key>
-            <key type="filename">../characters/player/player-20.png</key>
-            <key type="filename">../characters/player/player-21.png</key>
-            <key type="filename">../characters/player/player-22.png</key>
-            <key type="filename">../characters/player/player-23.png</key>
-            <key type="filename">../characters/player/player-24.png</key>
-            <key type="filename">../characters/player/player-25.png</key>
-            <key type="filename">../characters/player/player-26.png</key>
-            <key type="filename">../characters/player/player-27.png</key>
-            <key type="filename">../characters/player/player-28.png</key>
-            <key type="filename">../characters/player/player-29.png</key>
-            <key type="filename">../characters/player/player-3.png</key>
-            <key type="filename">../characters/player/player-30.png</key>
-            <key type="filename">../characters/player/player-31.png</key>
-            <key type="filename">../characters/player/player-32.png</key>
-            <key type="filename">../characters/player/player-33.png</key>
-            <key type="filename">../characters/player/player-34.png</key>
-            <key type="filename">../characters/player/player-35.png</key>
-            <key type="filename">../characters/player/player-36.png</key>
-            <key type="filename">../characters/player/player-37.png</key>
-            <key type="filename">../characters/player/player-38.png</key>
-            <key type="filename">../characters/player/player-39.png</key>
-            <key type="filename">../characters/player/player-4.png</key>
-            <key type="filename">../characters/player/player-40.png</key>
-            <key type="filename">../characters/player/player-41.png</key>
-            <key type="filename">../characters/player/player-42.png</key>
-            <key type="filename">../characters/player/player-43.png</key>
-            <key type="filename">../characters/player/player-44.png</key>
-            <key type="filename">../characters/player/player-45.png</key>
-            <key type="filename">../characters/player/player-46.png</key>
-            <key type="filename">../characters/player/player-47.png</key>
-            <key type="filename">../characters/player/player-48.png</key>
-            <key type="filename">../characters/player/player-49.png</key>
-            <key type="filename">../characters/player/player-5.png</key>
-            <key type="filename">../characters/player/player-50.png</key>
-            <key type="filename">../characters/player/player-6.png</key>
-            <key type="filename">../characters/player/player-7.png</key>
-            <key type="filename">../characters/player/player-8.png</key>
-            <key type="filename">../characters/player/player-9.png</key>
+            <key type="filename">../characters/player/player-attack-east_000.png</key>
+            <key type="filename">../characters/player/player-attack-east_001.png</key>
+            <key type="filename">../characters/player/player-attack-east_002.png</key>
+            <key type="filename">../characters/player/player-attack-east_003.png</key>
+            <key type="filename">../characters/player/player-attack-north_000.png</key>
+            <key type="filename">../characters/player/player-attack-north_001.png</key>
+            <key type="filename">../characters/player/player-attack-north_002.png</key>
+            <key type="filename">../characters/player/player-attack-north_003.png</key>
+            <key type="filename">../characters/player/player-attack-south_000.png</key>
+            <key type="filename">../characters/player/player-attack-south_001.png</key>
+            <key type="filename">../characters/player/player-attack-south_002.png</key>
+            <key type="filename">../characters/player/player-attack-south_003.png</key>
+            <key type="filename">../characters/player/player-attack-west_000.png</key>
+            <key type="filename">../characters/player/player-attack-west_001.png</key>
+            <key type="filename">../characters/player/player-attack-west_002.png</key>
+            <key type="filename">../characters/player/player-attack-west_003.png</key>
+            <key type="filename">../characters/player/player-death_000.png</key>
+            <key type="filename">../characters/player/player-death_001.png</key>
+            <key type="filename">../characters/player/player-death_002.png</key>
+            <key type="filename">../characters/player/player-idle-east_000.png</key>
+            <key type="filename">../characters/player/player-idle-east_001.png</key>
+            <key type="filename">../characters/player/player-idle-east_002.png</key>
+            <key type="filename">../characters/player/player-idle-east_003.png</key>
+            <key type="filename">../characters/player/player-idle-east_004.png</key>
+            <key type="filename">../characters/player/player-idle-east_005.png</key>
+            <key type="filename">../characters/player/player-idle-north_000.png</key>
+            <key type="filename">../characters/player/player-idle-north_001.png</key>
+            <key type="filename">../characters/player/player-idle-north_002.png</key>
+            <key type="filename">../characters/player/player-idle-north_003.png</key>
+            <key type="filename">../characters/player/player-idle-north_004.png</key>
+            <key type="filename">../characters/player/player-idle-north_005.png</key>
+            <key type="filename">../characters/player/player-idle-south_000.png</key>
+            <key type="filename">../characters/player/player-idle-south_001.png</key>
+            <key type="filename">../characters/player/player-idle-south_002.png</key>
+            <key type="filename">../characters/player/player-idle-south_003.png</key>
+            <key type="filename">../characters/player/player-idle-south_004.png</key>
+            <key type="filename">../characters/player/player-idle-south_005.png</key>
+            <key type="filename">../characters/player/player-idle-west_000.png</key>
+            <key type="filename">../characters/player/player-idle-west_001.png</key>
+            <key type="filename">../characters/player/player-idle-west_002.png</key>
+            <key type="filename">../characters/player/player-idle-west_003.png</key>
+            <key type="filename">../characters/player/player-idle-west_004.png</key>
+            <key type="filename">../characters/player/player-idle-west_005.png</key>
+            <key type="filename">../characters/player/player-run-east_000.png</key>
+            <key type="filename">../characters/player/player-run-east_001.png</key>
+            <key type="filename">../characters/player/player-run-east_002.png</key>
+            <key type="filename">../characters/player/player-run-east_003.png</key>
+            <key type="filename">../characters/player/player-run-east_004.png</key>
+            <key type="filename">../characters/player/player-run-east_005.png</key>
+            <key type="filename">../characters/player/player-run-north_000.png</key>
+            <key type="filename">../characters/player/player-run-north_001.png</key>
+            <key type="filename">../characters/player/player-run-north_002.png</key>
+            <key type="filename">../characters/player/player-run-north_003.png</key>
+            <key type="filename">../characters/player/player-run-north_004.png</key>
+            <key type="filename">../characters/player/player-run-north_005.png</key>
+            <key type="filename">../characters/player/player-run-south_000.png</key>
+            <key type="filename">../characters/player/player-run-south_001.png</key>
+            <key type="filename">../characters/player/player-run-south_002.png</key>
+            <key type="filename">../characters/player/player-run-south_003.png</key>
+            <key type="filename">../characters/player/player-run-south_004.png</key>
+            <key type="filename">../characters/player/player-run-south_005.png</key>
+            <key type="filename">../characters/player/player-run-west_000.png</key>
+            <key type="filename">../characters/player/player-run-west_001.png</key>
+            <key type="filename">../characters/player/player-run-west_002.png</key>
+            <key type="filename">../characters/player/player-run-west_003.png</key>
+            <key type="filename">../characters/player/player-run-west_004.png</key>
+            <key type="filename">../characters/player/player-run-west_005.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -238,31 +254,31 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../characters/slime/slime-0.png</key>
-            <key type="filename">../characters/slime/slime-1.png</key>
-            <key type="filename">../characters/slime/slime-10.png</key>
-            <key type="filename">../characters/slime/slime-11.png</key>
-            <key type="filename">../characters/slime/slime-12.png</key>
-            <key type="filename">../characters/slime/slime-13.png</key>
-            <key type="filename">../characters/slime/slime-14.png</key>
-            <key type="filename">../characters/slime/slime-15.png</key>
-            <key type="filename">../characters/slime/slime-16.png</key>
-            <key type="filename">../characters/slime/slime-17.png</key>
-            <key type="filename">../characters/slime/slime-18.png</key>
-            <key type="filename">../characters/slime/slime-19.png</key>
-            <key type="filename">../characters/slime/slime-2.png</key>
-            <key type="filename">../characters/slime/slime-20.png</key>
-            <key type="filename">../characters/slime/slime-21.png</key>
-            <key type="filename">../characters/slime/slime-22.png</key>
-            <key type="filename">../characters/slime/slime-23.png</key>
-            <key type="filename">../characters/slime/slime-24.png</key>
-            <key type="filename">../characters/slime/slime-3.png</key>
-            <key type="filename">../characters/slime/slime-4.png</key>
-            <key type="filename">../characters/slime/slime-5.png</key>
-            <key type="filename">../characters/slime/slime-6.png</key>
-            <key type="filename">../characters/slime/slime-7.png</key>
-            <key type="filename">../characters/slime/slime-8.png</key>
-            <key type="filename">../characters/slime/slime-9.png</key>
+            <key type="filename">../characters/slime/slime-attack_000.png</key>
+            <key type="filename">../characters/slime/slime-attack_001.png</key>
+            <key type="filename">../characters/slime/slime-attack_002.png</key>
+            <key type="filename">../characters/slime/slime-attack_003.png</key>
+            <key type="filename">../characters/slime/slime-attack_004.png</key>
+            <key type="filename">../characters/slime/slime-attack_005.png</key>
+            <key type="filename">../characters/slime/slime-attack_006.png</key>
+            <key type="filename">../characters/slime/slime-death_000.png</key>
+            <key type="filename">../characters/slime/slime-death_001.png</key>
+            <key type="filename">../characters/slime/slime-death_002.png</key>
+            <key type="filename">../characters/slime/slime-death_003.png</key>
+            <key type="filename">../characters/slime/slime-death_004.png</key>
+            <key type="filename">../characters/slime/slime-fear_000.png</key>
+            <key type="filename">../characters/slime/slime-fear_001.png</key>
+            <key type="filename">../characters/slime/slime-fear_002.png</key>
+            <key type="filename">../characters/slime/slime-idle_000.png</key>
+            <key type="filename">../characters/slime/slime-idle_001.png</key>
+            <key type="filename">../characters/slime/slime-idle_002.png</key>
+            <key type="filename">../characters/slime/slime-idle_003.png</key>
+            <key type="filename">../characters/slime/slime-run_000.png</key>
+            <key type="filename">../characters/slime/slime-run_001.png</key>
+            <key type="filename">../characters/slime/slime-run_002.png</key>
+            <key type="filename">../characters/slime/slime-run_003.png</key>
+            <key type="filename">../characters/slime/slime-run_004.png</key>
+            <key type="filename">../characters/slime/slime-run_005.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -274,6 +290,25 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../objects/chest/chest-idle_000.png</key>
+            <key type="filename">../objects/chest/chest-open_000.png</key>
+            <key type="filename">../objects/chest/chest-open_001.png</key>
+            <key type="filename">../objects/chest/chest-open_002.png</key>
+            <key type="filename">../objects/chest/chest-open_003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -286,6 +321,7 @@
                 <array>
                     <filename>../characters/player</filename>
                     <filename>../characters/slime</filename>
+                    <filename>../objects/chest</filename>
                 </array>
             </struct>
         </map>

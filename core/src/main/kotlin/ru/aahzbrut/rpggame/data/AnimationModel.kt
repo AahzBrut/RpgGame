@@ -1,6 +1,6 @@
-package ru.aahzbrut.rpggame.system
+package ru.aahzbrut.rpggame.data
 
-enum class AnimationType(
+enum class AnimationModel(
     val typeName: String
 ) {
     PLAYER("player"),
