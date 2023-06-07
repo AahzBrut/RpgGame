@@ -29,7 +29,14 @@ class PhysicsSystem(
 
     override fun onTickEntity(entity: Entity) {
         val image = entity[ImageComponent].image
+        val physicsComponent = entity[PhysicsComponent]
         val body = entity[PhysicsComponent].body
+
+        if (!physicsComponent.impulse.isZero) {
+            body.applyLinearImpulse(physicsComponent.impulse, body.worldCenter, true)
+            physicsComponent.impulse.setZero()
+        }
+
         body.position.let {
             image.run {
                 setPosition(it.x - width * 0.5f, it.y - height * 0.5f)

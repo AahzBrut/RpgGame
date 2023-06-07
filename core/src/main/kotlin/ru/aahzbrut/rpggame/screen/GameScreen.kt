@@ -19,6 +19,7 @@ import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
+import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 import ru.aahzbrut.rpggame.system.*
 
@@ -33,12 +34,14 @@ class GameScreen : KtxScreen {
     private val physicsWorld: World = createWorld(Vector2.Zero).apply {
         autoClearForces = false
     }
+    private val keyBindings = KeyBindings()
 
     private val world = world {
         injectables {
             add(stage)
             add(charactersAtlas)
             add(physicsWorld)
+            add(keyBindings)
         }
 
         components {
@@ -49,7 +52,9 @@ class GameScreen : KtxScreen {
         }
 
         systems {
+            add(InputSystem())
             add(EntitySpawnSystem())
+            add(MovementSystem())
             add(PhysicsSystem())
             add(AnimationSystem())
             add(RenderSystem())

@@ -1,5 +1,6 @@
 package ru.aahzbrut.rpggame.component
 
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
@@ -11,7 +12,9 @@ import ktx.box2d.BodyDefinition
 import ktx.box2d.body
 import ktx.math.vec2
 
-class PhysicsComponent : Component<PhysicsComponent> {
+class PhysicsComponent(
+    val impulse: Vector2 = vec2()
+) : Component<PhysicsComponent> {
     lateinit var body: Body
     val prevPos = vec2()
 

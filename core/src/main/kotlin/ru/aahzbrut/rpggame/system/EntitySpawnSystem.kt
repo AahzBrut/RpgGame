@@ -18,10 +18,8 @@ import ktx.tiled.type
 import ktx.tiled.x
 import ktx.tiled.y
 import ru.aahzbrut.rpggame.UNIT_SCALE
-import ru.aahzbrut.rpggame.component.AnimationComponent
-import ru.aahzbrut.rpggame.component.ImageComponent
+import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromImage
-import ru.aahzbrut.rpggame.component.SpawnComponent
 import ru.aahzbrut.rpggame.data.AnimationModel
 import ru.aahzbrut.rpggame.data.AnimationType
 import ru.aahzbrut.rpggame.data.FacingType
@@ -64,6 +62,14 @@ class EntitySpawnSystem(
                     box(width, height){
                         isSensor = false
                     }
+                }
+
+                if (config.animationModel == AnimationModel.PLAYER || config.animationModel == AnimationModel.SLIME) {
+                    it += MovementComponent(5f)
+                }
+
+                if (config.animationModel == AnimationModel.PLAYER) {
+                    it += PlayerComponent()
                 }
             }
         }
