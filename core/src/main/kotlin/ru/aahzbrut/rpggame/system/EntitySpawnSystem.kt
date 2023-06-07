@@ -2,14 +2,17 @@ package ru.aahzbrut.rpggame.system
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
-import com.github.quillraven.fleks.World
+import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import ktx.app.gdxError
+import ktx.box2d.box
 import ktx.math.vec2
 import ktx.tiled.type
 import ktx.tiled.x
@@ -17,6 +20,7 @@ import ktx.tiled.y
 import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.AnimationComponent
 import ru.aahzbrut.rpggame.component.ImageComponent
+import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromImage
 import ru.aahzbrut.rpggame.component.SpawnComponent
 import ru.aahzbrut.rpggame.data.AnimationModel
 import ru.aahzbrut.rpggame.data.AnimationType
@@ -26,8 +30,9 @@ import ru.aahzbrut.rpggame.event.MapChangedEvent
 
 class EntitySpawnSystem(
     private val atlas: TextureAtlas = inject(),
+    private val physicsWorld: World = inject()
 ) : EventListener, IteratingSystem(
-    World.family { all(SpawnComponent) }
+    family { all(SpawnComponent) }
 ) {
     private val spawnConfigCache = mutableMapOf<String, SpawnConfig>()
     private val sizeCache = mutableMapOf<AnimationModel, Vector2>()
@@ -49,6 +54,16 @@ class EntitySpawnSystem(
                         AnimationType.IDLE,
                         if (config.animationModel == AnimationModel.PLAYER) FacingType.SOUTH else FacingType.NONE
                     )
+                }
+
+                it += fromImage(
+                    physicsWorld,
+                    it[ImageComponent].image,
+                    BodyDef.BodyType.DynamicBody
+                ) { _, width, height ->
+                    box(width, height){
+                        isSensor = false
+                    }
                 }
             }
         }
@@ -86,6 +101,6 @@ class EntitySpawnSystem(
         val regions = atlas.findRegions(regionName)
         if (regions.isEmpty) gdxError("There are no regions for idle animation for model: ${this.typeName}")
         val firstFrame = regions.first()
-        Vector2(firstFrame.originalWidth * UNIT_SCALE *.5f, firstFrame.originalHeight * UNIT_SCALE *.5f)
+        Vector2(firstFrame.originalWidth * UNIT_SCALE * .5f, firstFrame.originalHeight * UNIT_SCALE * .5f)
     }
 }

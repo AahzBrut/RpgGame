@@ -16,10 +16,11 @@ import ktx.box2d.createWorld
 import ru.aahzbrut.rpggame.WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.WINDOW_WIDTH
 import ru.aahzbrut.rpggame.component.ImageComponent
+import ru.aahzbrut.rpggame.component.PhysicsComponent
+import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
+import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
 import ru.aahzbrut.rpggame.event.MapChangedEvent
-import ru.aahzbrut.rpggame.system.AnimationSystem
-import ru.aahzbrut.rpggame.system.EntitySpawnSystem
-import ru.aahzbrut.rpggame.system.RenderSystem
+import ru.aahzbrut.rpggame.system.*
 
 class GameScreen : KtxScreen {
     companion object {
@@ -43,12 +44,16 @@ class GameScreen : KtxScreen {
         components {
             onAdd(ImageComponent) { _, imageComponent -> stage.addActor(imageComponent.image) }
             onRemove(ImageComponent) { _, imageComponent -> stage.root.removeActor(imageComponent.image) }
+            onAdd(PhysicsComponent, onPhysicAdd)
+            onRemove(PhysicsComponent, onPhysicRemove)
         }
 
         systems {
             add(EntitySpawnSystem())
+            add(PhysicsSystem())
             add(AnimationSystem())
             add(RenderSystem())
+            add(DebugSystem())
         }
     }
 
