@@ -15,6 +15,7 @@ import com.github.quillraven.fleks.collection.compareEntityBy
 import ktx.assets.disposeSafely
 import ktx.graphics.use
 import ktx.tiled.forEachLayer
+import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 
@@ -26,7 +27,7 @@ class RenderSystem(
 ) {
     private val backgroundLayers = mutableListOf<TiledMapTileLayer>()
     private val foregroundLayers = mutableListOf<TiledMapTileLayer>()
-    private val mapRenderer = OrthogonalTiledMapRenderer(null, 1/16f, stage.batch)
+    private val mapRenderer = OrthogonalTiledMapRenderer(null, UNIT_SCALE, stage.batch)
 
     override fun onTick() {
         super.onTick()
