@@ -155,11 +155,11 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Fast</enum>
             <key>extrude</key>
-            <uint>0</uint>
+            <uint>1</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
-            <uint>1</uint>
+            <uint>0</uint>
             <key>trimMode</key>
             <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
@@ -340,9 +340,9 @@
         <key>ignoredWarnings</key>
         <array/>
         <key>commonDivisorX</key>
-        <uint>16</uint>
+        <uint>1</uint>
         <key>commonDivisorY</key>
-        <uint>16</uint>
+        <uint>1</uint>
         <key>packNormalMaps</key>
         <false/>
         <key>autodetectNormalMaps</key>
