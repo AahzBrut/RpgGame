@@ -12,11 +12,11 @@ class ImageComponent : Component<ImageComponent>, Comparable<ImageComponent> {
     companion object : ComponentType<ImageComponent>()
 
     override fun compareTo(other: ImageComponent): Int {
-        val yDiff = other.image.imageY.compareTo(image.imageY)
+        val yDiff = other.image.y.compareTo(image.y)
         return if (yDiff != 0) {
             yDiff
         } else {
-            other.image.imageX.compareTo(image.imageX)
+            other.image.x.compareTo(image.x)
         }
     }
 }

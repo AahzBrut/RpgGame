@@ -41,7 +41,7 @@ class EntitySpawnSystem(
             world.entity {
                 it += ImageComponent().apply {
                     image = Image().apply {
-                        val size = config.animationModel.getSize()
+                        val size = config.animationModel.getSize(config.scale)
                         setSize(size.x, size.y)
                         setPosition(location.x, location.y)
                     }
@@ -57,7 +57,7 @@ class EntitySpawnSystem(
                 it += fromImage(
                     physicsWorld,
                     it[ImageComponent].image,
-                    BodyDef.BodyType.DynamicBody
+                    config.bodyType
                 ) { _, width, height ->
                     box(width, height){
                         isSensor = false
@@ -95,11 +95,12 @@ class EntitySpawnSystem(
         when (type) {
             "Player" -> SpawnConfig(AnimationModel.PLAYER)
             "Slime" -> SpawnConfig(AnimationModel.SLIME)
+            "Chest" -> SpawnConfig(AnimationModel.CHEST, BodyDef.BodyType.StaticBody, 2f)
             else -> gdxError("Unknown model type: $type")
         }
     }
 
-    private fun AnimationModel.getSize(): Vector2 = sizeCache.getOrPut(this) {
+    private fun AnimationModel.getSize(scale: Float): Vector2 = sizeCache.getOrPut(this) {
         val regionName = when (this) {
             AnimationModel.PLAYER -> "${this.typeName}${AnimationType.IDLE.atlasKey}${FacingType.SOUTH.atlasKey}"
             else -> "${this.typeName}${AnimationType.IDLE.atlasKey}"
@@ -107,6 +108,6 @@ class EntitySpawnSystem(
         val regions = atlas.findRegions(regionName)
         if (regions.isEmpty) gdxError("There are no regions for idle animation for model: ${this.typeName}")
         val firstFrame = regions.first()
-        Vector2(firstFrame.originalWidth * UNIT_SCALE * .5f, firstFrame.originalHeight * UNIT_SCALE * .5f)
+        Vector2(firstFrame.originalWidth * scale * UNIT_SCALE * 0.5f, firstFrame.originalHeight * scale* UNIT_SCALE * 0.5f)
     }
 }
