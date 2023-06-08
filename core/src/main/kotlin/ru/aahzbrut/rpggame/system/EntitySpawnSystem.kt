@@ -2,7 +2,7 @@ package ru.aahzbrut.rpggame.system
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.physics.box2d.BodyDef
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
@@ -60,7 +60,13 @@ class EntitySpawnSystem(
                     config.bodyType
                 ) { _, width, height ->
                     box(width, height){
-                        isSensor = false
+                        isSensor = config.bodyType != StaticBody
+                    }
+
+                    if (config.bodyType != StaticBody) {
+                        box (width, height * 0.4f, vec2(0f, -height * 0.12f)) {
+                            isSensor = false
+                        }
                     }
                 }
 
@@ -95,7 +101,7 @@ class EntitySpawnSystem(
         when (type) {
             "Player" -> SpawnConfig(AnimationModel.PLAYER)
             "Slime" -> SpawnConfig(AnimationModel.SLIME)
-            "Chest" -> SpawnConfig(AnimationModel.CHEST, BodyDef.BodyType.StaticBody, 2f)
+            "Chest" -> SpawnConfig(AnimationModel.CHEST, StaticBody, 2f)
             else -> gdxError("Unknown model type: $type")
         }
     }

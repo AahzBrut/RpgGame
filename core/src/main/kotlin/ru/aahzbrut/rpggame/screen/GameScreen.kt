@@ -53,6 +53,7 @@ class GameScreen : KtxScreen {
 
         systems {
             add(InputSystem())
+            add(CollisionSpawnSystem())
             add(EntitySpawnSystem())
             add(MovementSystem())
             add(PhysicsSystem())

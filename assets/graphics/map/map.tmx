@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="12">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="22">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="145" name="Entities" tilewidth="48" tileheight="48" tilecount="3" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
@@ -18,6 +18,16 @@
    eJyTYmBgkBphmBeHuCqR+hkp1E8sxmXPUMPUChdqhi962OJKEyMd4wsXSSLjZyilY2rnYVLDlJhwpsQsemN8bh/MeLCGKzHpkx5pmJbupycGAJE3Oi8=
   </data>
  </layer>
+ <layer id="2" name="background1" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi8IGygHYAGDIlUN9jcjQ5kgFiWCuaEA3EyEOdTwSxsgFruJAag+wU5rnOBmAcLbkVSg82t1EoHTCSK4wKeVLLfE4c4uYBQPIPswRaW5NpPbLqF2Umt8CcXoNsDCy9S7CcmL+Eq30jxPy3KBJg96OmXnPAnJw+wkShODqC0rKN2WUlM2UVs+TaY60MARF0MKg==
+  </data>
+ </layer>
+ <layer id="3" name="foreground1" width="32" height="18">
+  <data encoding="base64" compression="zlib">
+   eJxjYBi6oAqI24CYf4DsFwBiQSAWIlGfMBCLoImR4xdRIBYDYnES7ccGsPkFmztpBSj1Cz3dSikYbOmW3mFHzXSLDugRtvjCC1eZQK8wpmXYDmdAafwMpfJnFCAAALsOB0k=
+  </data>
+ </layer>
  <objectgroup id="4" name="entities">
   <object id="1" name="Player" type="Player" gid="145" x="7.60662" y="280.667" width="48" height="48"/>
   <object id="2" name="Slime" type="Slime" gid="146" x="184.539" y="151.146" width="32" height="32"/>
@@ -31,14 +41,4 @@
   <object id="10" name="Slime" type="Slime" gid="146" x="72.2806" y="214.904" width="32" height="32"/>
   <object id="11" name="Chest" type="Chest" gid="147" x="160.932" y="126.797" width="16" height="16"/>
  </objectgroup>
- <layer id="2" name="background1" width="32" height="18">
-  <data encoding="base64" compression="zlib">
-   eJxjYBgFxALDgXYAlYAMEMtSwZxwIE4G4nwqmIUNUMudxAB0vyDHdS4Q82DBrUhqaOlWJhLFcQFPKtnviUOcXEAo7KjlfxggNd1S235SAbo9sPAixX5i0ieu8o0U/9OiTIDZg55+yQl/cvIAG4ni5ABKyw96lpXDCQAAcOgJeg==
-  </data>
- </layer>
- <layer id="3" name="foreground1" width="32" height="18">
-  <data encoding="base64" compression="zlib">
-   eJxjYBi8IIyAfBUQtwExPx3cgg0IALEgEAuhiRNytzAQi6CJkeMXUSAWA2JxEvTgAtj8gs2dtAKU+oWebiUW4EoHgy3d0jvsyIlrQnkKBqgZtrjsxBdeuMoEeoUxNcuEkQQojZ/BWP5QAojJb8TmSWLVDQQAAI6DCfk=
-  </data>
- </layer>
 </map>

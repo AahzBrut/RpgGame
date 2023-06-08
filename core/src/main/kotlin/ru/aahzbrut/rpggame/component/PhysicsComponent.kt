@@ -1,5 +1,6 @@
 package ru.aahzbrut.rpggame.component
 
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
@@ -11,6 +12,7 @@ import com.github.quillraven.fleks.ComponentType
 import ktx.box2d.BodyDefinition
 import ktx.box2d.body
 import ktx.math.vec2
+import ru.aahzbrut.rpggame.UNIT_SCALE
 
 class PhysicsComponent(
     val impulse: Vector2 = vec2()
@@ -51,5 +53,27 @@ class PhysicsComponent(
             }
         }
 
+        fun fromShape2D(
+            world: World,
+            shape2D: Rectangle,
+            x: Int,
+            y: Int,
+            fixtureAction: BodyDefinition.(PhysicsComponent, Float, Float) -> Unit
+        ): PhysicsComponent {
+            return PhysicsComponent().apply {
+                body = world.body(BodyDef.BodyType.StaticBody) {
+                    shape2D.let {
+                        @Suppress("kotlin:S6518")
+                        position.set(
+                            x + it.x * UNIT_SCALE + it.width * UNIT_SCALE * 0.5f,
+                            y + it.y * UNIT_SCALE + it.height * UNIT_SCALE * 0.5f)
+                        fixedRotation = true
+                        allowSleep = false
+                        this.fixtureAction(this@apply, it.width * UNIT_SCALE, it.height * UNIT_SCALE)
+                    }
+                }
+                prevPos.set(body.position)
+            }
+        }
     }
 }
