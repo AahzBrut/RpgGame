@@ -1,5 +1,6 @@
 package ru.aahzbrut.rpggame.system
 
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.physics.box2d.World
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.Fixed
@@ -13,7 +14,7 @@ class PhysicsSystem(
     private val physicsWorld: World = inject()
 ) : IteratingSystem(
     family = family { all(PhysicsComponent, ImageComponent) },
-    interval = Fixed(1 / 30f)
+    interval = Fixed(1 / 60f)
 ) {
 
     override fun onUpdate() {
@@ -28,18 +29,30 @@ class PhysicsSystem(
     }
 
     override fun onTickEntity(entity: Entity) {
-        val image = entity[ImageComponent].image
         val physicsComponent = entity[PhysicsComponent]
         val body = entity[PhysicsComponent].body
+
+        physicsComponent.prevPos.set(body.position)
 
         if (!physicsComponent.impulse.isZero) {
             body.applyLinearImpulse(physicsComponent.impulse, body.worldCenter, true)
             physicsComponent.impulse.setZero()
         }
+    }
 
-        body.position.let {
-            image.run {
-                setPosition(it.x - width * 0.5f, it.y - height * 0.5f)
+    override fun onAlphaEntity(entity: Entity, alpha: Float) {
+        val image = entity[ImageComponent].image
+        val physicsComponent = entity[PhysicsComponent]
+        val body = entity[PhysicsComponent].body
+
+        body.position.let { newPosition ->
+            physicsComponent.prevPos.let { prevPosition ->
+                image.run {
+                    setPosition(
+                        MathUtils.lerp(prevPosition.x, newPosition.x, alpha) - width * 0.5f,
+                        MathUtils.lerp(prevPosition.y, newPosition.y, alpha) - height * 0.5f
+                    )
+                }
             }
         }
     }

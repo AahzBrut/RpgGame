@@ -16,7 +16,7 @@
   </data>
  </layer>
  <objectgroup id="4" name="entities">
-  <object id="1" name="Player" type="Player" gid="145" x="-8.19669" y="283.392" width="48" height="48"/>
+  <object id="1" name="Player" type="Player" gid="145" x="7.60662" y="280.667" width="48" height="48"/>
   <object id="2" name="Slime" type="Slime" gid="146" x="184.539" y="151.146" width="32" height="32"/>
   <object id="3" name="Slime" type="Slime" gid="146" x="86.994" y="133.162" width="32" height="32"/>
   <object id="4" name="Slime" type="Slime" gid="146" x="280.448" y="181.662" width="32" height="32"/>
