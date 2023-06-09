@@ -20,10 +20,7 @@ import ktx.tiled.y
 import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromImage
-import ru.aahzbrut.rpggame.data.AnimationModel
-import ru.aahzbrut.rpggame.data.AnimationType
-import ru.aahzbrut.rpggame.data.FacingType
-import ru.aahzbrut.rpggame.data.SpawnConfig
+import ru.aahzbrut.rpggame.data.*
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 
 class EntitySpawnSystem(
@@ -47,10 +44,12 @@ class EntitySpawnSystem(
                     }
                 }
                 it += AnimationComponent().apply {
-                    setNextAnimation(
-                        config.animationModel,
-                        AnimationType.IDLE,
-                        if (config.animationModel == AnimationModel.PLAYER) FacingType.SOUTH else FacingType.NONE
+                    setAnimation(
+                        AnimationId(
+                            config.animationModel,
+                            AnimationType.IDLE,
+                            config.defaultFacing
+                        )
                     )
                 }
 
@@ -100,9 +99,9 @@ class EntitySpawnSystem(
 
     private fun spawnConfig(type: String): SpawnConfig = spawnConfigCache.getOrPut(type) {
         when (type) {
-            "Player" -> SpawnConfig(AnimationModel.PLAYER)
-            "Slime" -> SpawnConfig(AnimationModel.SLIME)
-            "Chest" -> SpawnConfig(AnimationModel.CHEST, StaticBody, 2f)
+            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH)
+            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE)
+            "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f)
             else -> gdxError("Unknown model type: $type")
         }
     }

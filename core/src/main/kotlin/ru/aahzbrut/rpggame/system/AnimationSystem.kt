@@ -11,6 +11,7 @@ import ktx.app.gdxError
 import ktx.collections.map
 import ru.aahzbrut.rpggame.component.AnimationComponent
 import ru.aahzbrut.rpggame.component.ImageComponent
+import ru.aahzbrut.rpggame.data.AnimationId
 
 class AnimationSystem(
     private val textureAtlas: TextureAtlas = inject(),
@@ -22,23 +23,23 @@ class AnimationSystem(
         private const val frameDuration = 1/8f
     }
 
-    private val animCache = mutableMapOf<String, Animation<TextureRegionDrawable>>()
+    private val animCache = mutableMapOf<AnimationId, Animation<TextureRegionDrawable>>()
 
     override fun onTickEntity(entity: Entity) {
         val animComponent = entity[AnimationComponent]
         val nextAnimation = animComponent.nextAnimation
 
-        if (nextAnimation == "") {
+        if (nextAnimation == null) {
             animComponent.stateTime += deltaTime
         } else {
             animComponent.animation = animCache.getOrPut(nextAnimation) {
-                logger.debug { "New Animation is created for $nextAnimation" }
-                val regions = textureAtlas.findRegions(animComponent.nextAnimation)
+                logger.debug { "New Animation is created for ${nextAnimation.regionName}" }
+                val regions = textureAtlas.findRegions(nextAnimation.regionName)
                 if (regions.isEmpty) gdxError("There are no texture regions for ${animComponent.nextAnimation}")
                 Animation(frameDuration, regions.map { TextureRegionDrawable(it) })
             }
             animComponent.stateTime = 0f
-            animComponent.nextAnimation = ""
+            animComponent.nextAnimation = null
         }
 
         animComponent.animation.playMode = animComponent.playMode
