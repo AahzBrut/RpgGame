@@ -60,6 +60,8 @@ class GameScreen : KtxScreen {
             add(PhysicsSystem())
             add(AnimationSystem())
             add(CameraFollowSystem())
+            add(LifeManagementSystem())
+            add(DeathManagementSystem())
             add(RenderSystem())
             add(DebugSystem())
         }

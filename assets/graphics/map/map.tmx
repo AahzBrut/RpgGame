@@ -15,7 +15,7 @@
  </tileset>
  <layer id="1" name="ground" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJyTYmBgkBphmBeHuCqR+hkp1E8sxmXPUMPUChdqhi962OJKEyMd4wsXSSLjZyilY2rnYVLDlJhwpsQsemN8bh/MeLCGKzHpkx5pmJbupycGAJE3Oi8=
+   eJyTYmBgkBphmBeHuCqR+hkp1E8sxmUPrbEiECsBsTKF+mFmkBouHUCsCcRaZIavAxD7QHEKDn+ghy2uNEEOBrlfA8kNEQMQh7AwxBaOpGB84SJJZPwMVDomB1M7D5MaprpEhDOxZg0GjM/tgxnjClc9INYHYgM6uweWLohJn/RIw+TiweY2ACBSPfA=
   </data>
  </layer>
  <layer id="2" name="background1" width="32" height="18">
@@ -28,7 +28,7 @@
    eJxjYBi6oAqI24CYf4DsFwBiQSAWIlGfMBCLoImR4xdRIBYDYnES7ccGsPkFmztpBSj1Cz3dSikYbOmW3mFHzXSLDugRtvjCC1eZQK8wpmXYDmdAafwMpfJnFCAAALsOB0k=
   </data>
  </layer>
- <objectgroup id="4" name="entities">
+ <objectgroup id="4" name="entities" visible="0">
   <object id="1" name="Player" type="Player" gid="145" x="7.60662" y="280.667" width="48" height="48"/>
   <object id="2" name="Slime" type="Slime" gid="146" x="184.539" y="151.146" width="32" height="32"/>
   <object id="3" name="Slime" type="Slime" gid="146" x="86.994" y="133.162" width="32" height="32"/>
