@@ -19,6 +19,7 @@ class PhysicsComponent(
 ) : Component<PhysicsComponent> {
     lateinit var body: Body
     val prevPos = vec2()
+    val size = vec2()
 
     override fun type() = PhysicsComponent
 
@@ -50,6 +51,8 @@ class PhysicsComponent(
                     }
                 }
                 prevPos.set(body.position)
+                @Suppress("kotlin:S6518")
+                size.set(image.width, image.height)
             }
         }
 

@@ -26,7 +26,7 @@ class InputSystem(
         entity[MovementComponent].direction.set(moveDirection)
         val animationComponent = entity[AnimationComponent]
         val movementAnimation = when {
-            moveDirection == Vector2.Zero -> AnimationId(AnimationModel.PLAYER, AnimationType.IDLE, FacingType.SOUTH)
+            moveDirection == Vector2.Zero -> keepDirectionIdle(animationComponent.currentAnimation)
             moveDirection.x > 0f -> AnimationId(AnimationModel.PLAYER, AnimationType.RUN, FacingType.EAST)
             moveDirection.x < 0f -> AnimationId(AnimationModel.PLAYER, AnimationType.RUN, FacingType.WEST)
             moveDirection.y > 0f -> AnimationId(AnimationModel.PLAYER, AnimationType.RUN, FacingType.NORTH)
@@ -36,6 +36,11 @@ class InputSystem(
         if (animationComponent.currentAnimation != movementAnimation) {
             animationComponent.setAnimation(movementAnimation)
         }
+    }
 
+    private fun keepDirectionIdle(animationId: AnimationId?): AnimationId {
+        return animationId?.let {
+            AnimationId(AnimationModel.PLAYER, AnimationType.IDLE, it.facing)
+        } ?: AnimationId(AnimationModel.PLAYER, AnimationType.IDLE, FacingType.SOUTH)
     }
 }
