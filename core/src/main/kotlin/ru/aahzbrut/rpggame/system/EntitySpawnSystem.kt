@@ -59,19 +59,20 @@ class EntitySpawnSystem(
                     it[ImageComponent].image,
                     config.bodyType
                 ) { _, width, height ->
-                    box(width, height){
+                    box(width, height) {
                         isSensor = config.bodyType != StaticBody
                     }
 
                     if (config.bodyType != StaticBody) {
-                        box (width, height * 0.4f, vec2(0f, -height * 0.12f)) {
+                        box(width, height * 0.4f, vec2(0f, -height * 0.12f)) {
                             isSensor = false
                         }
                     }
                 }
 
-                if (config.animationModel == AnimationModel.PLAYER || config.animationModel == AnimationModel.SLIME) {
+                if (config.animationModel.isAny(AnimationModel.PLAYER, AnimationModel.SLIME)) {
                     it += MovementComponent(5f)
+                    it += CollisionZoneComponent()
                 }
 
                 if (config.animationModel == AnimationModel.PLAYER) {
@@ -114,6 +115,9 @@ class EntitySpawnSystem(
         val regions = atlas.findRegions(regionName)
         if (regions.isEmpty) gdxError("There are no regions for idle animation for model: ${this.typeName}")
         val firstFrame = regions.first()
-        Vector2(firstFrame.originalWidth * scale * UNIT_SCALE * 0.5f, firstFrame.originalHeight * scale* UNIT_SCALE * 0.5f)
+        Vector2(
+            firstFrame.originalWidth * scale * UNIT_SCALE * 0.5f,
+            firstFrame.originalHeight * scale * UNIT_SCALE * 0.5f
+        )
     }
 }

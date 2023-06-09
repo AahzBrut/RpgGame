@@ -1,5 +1,6 @@
 package ru.aahzbrut.rpggame.system
 
+import com.badlogic.gdx.math.Vector2
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -16,7 +17,7 @@ class MovementSystem : IteratingSystem(
     override fun onTickEntity(entity: Entity) {
         entity[MovementComponent].let {
             entity[PhysicsComponent].run {
-                if (it.direction.epsilonEquals(vec2())) {
+                if (it.direction.epsilonEquals(Vector2.Zero)) {
                     val negatingVelocity = vec2()
                         .set(body.linearVelocity)
                         .unaryMinus()

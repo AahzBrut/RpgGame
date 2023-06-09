@@ -15,12 +15,14 @@ class AnimationComponent(
 ) : Component<AnimationComponent> {
     lateinit var animation: Animation<TextureRegionDrawable>
     var nextAnimation = ""
+    var currentAnimation = ""
 
     override fun type() = AnimationComponent
 
     fun setNextAnimation(animModel: AnimationModel, type: AnimationType, facingType: FacingType){
         this.atlasKey = animModel.typeName
         nextAnimation = "$atlasKey${type.atlasKey}${facingType.atlasKey}"
+        currentAnimation = nextAnimation
     }
 
     companion object : ComponentType<AnimationComponent>()

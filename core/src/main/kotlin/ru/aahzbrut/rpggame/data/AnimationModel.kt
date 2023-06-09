@@ -5,5 +5,8 @@ enum class AnimationModel(
 ) {
     PLAYER("player"),
     SLIME("slime"),
-    CHEST("chest")
+    CHEST("chest");
+
+    fun isAny(vararg others: AnimationModel) : Boolean =
+        others.any { it == this }
 }
