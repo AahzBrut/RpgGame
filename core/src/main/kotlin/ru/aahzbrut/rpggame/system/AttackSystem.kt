@@ -8,9 +8,11 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import ktx.box2d.query
 import ktx.math.plus
-import ktx.math.vec2
 import ru.aahzbrut.rpggame.abs
-import ru.aahzbrut.rpggame.component.*
+import ru.aahzbrut.rpggame.component.AnimationComponent
+import ru.aahzbrut.rpggame.component.AttackComponent
+import ru.aahzbrut.rpggame.component.LifeComponent
+import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.data.AttackState
 import ru.aahzbrut.rpggame.entity
 
@@ -45,8 +47,8 @@ class AttackSystem(
         val attackDirection = animationComponent.direction
         val position = physicsComponent.body.position
         val entitySize = physicsComponent.size
-        val attackCenter = vec2().set(position).plus(vec2().set(attackDirection).scl(entitySize).scl(0.5f))
-        val size = vec2().set(entitySize).plus(vec2().set(attackDirection).abs().scl(entitySize))
+        val attackCenter = position.cpy().plus(attackDirection.cpy().scl(entitySize).scl(0.5f))
+        val size = entitySize.cpy().plus(attackDirection.cpy().abs().scl(entitySize))
 
         it.attackAreaCenter.set(attackCenter)
         it.attackAreaSize.set(size)

@@ -11,7 +11,6 @@ import ktx.assets.disposeSafely
 import ktx.graphics.rect
 import ktx.graphics.use
 import ktx.math.minus
-import ktx.math.vec2
 import ru.aahzbrut.rpggame.component.AttackComponent
 
 class DebugSystem(
@@ -34,9 +33,9 @@ class DebugSystem(
             renderer.setColor(1f, 0f, 0f, 1f)
             world.family { all(AttackComponent) }.forEach {
                 with(it[AttackComponent]){
-                    val halfSize = vec2().set(attackAreaSize).scl(0.5f)
+                    val halfSize = attackAreaSize.cpy().scl(0.5f)
                     if (this.attackAreaCenter != Vector2.Zero){
-                        val screenCenter = vec2().set(attackAreaCenter).minus(halfSize)
+                        val screenCenter = attackAreaCenter.cpy().minus(halfSize)
                         renderer.rect(screenCenter, attackAreaSize)
                     }
                 }
