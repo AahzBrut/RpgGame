@@ -7,6 +7,7 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import ktx.app.gdxError
 import ru.aahzbrut.rpggame.component.AnimationComponent
+import ru.aahzbrut.rpggame.component.AttackComponent
 import ru.aahzbrut.rpggame.component.MovementComponent
 import ru.aahzbrut.rpggame.component.PlayerComponent
 import ru.aahzbrut.rpggame.data.AnimationId
@@ -18,10 +19,15 @@ import ru.aahzbrut.rpggame.input.KeyBindings
 class InputSystem(
     private val keyBindings: KeyBindings = inject()
 ) : IteratingSystem(
-    family { all(PlayerComponent, MovementComponent, AnimationComponent) }
+    family { all(PlayerComponent, MovementComponent, AnimationComponent, AttackComponent) }
 ) {
 
     override fun onTickEntity(entity: Entity) {
+        if (keyBindings.isTryingToAttack) {
+            entity[AttackComponent].startAttack()
+            return
+        }
+
         val moveDirection = keyBindings.moveDirection
         entity[MovementComponent].direction.set(moveDirection)
         val animationComponent = entity[AnimationComponent]

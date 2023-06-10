@@ -14,6 +14,7 @@ class KeyBindings(
     private val moveRight: Array<Int> = arrayOf(Input.Keys.D),
     private val moveUp: Array<Int> = arrayOf(Input.Keys.W),
     private val moveDown: Array<Int> = arrayOf(Input.Keys.S),
+    private val attack: Array<Int> = arrayOf(Input.Keys.SPACE)
 ){
 
     val moveDirection: Vector2 get() {
@@ -25,4 +26,6 @@ class KeyBindings(
             result.nor()
         }
     }
+
+    val isTryingToAttack: Boolean get() = attack.any{ Gdx.input.isKeyPressed(it)}
 }

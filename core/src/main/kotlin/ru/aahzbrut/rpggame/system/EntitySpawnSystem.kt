@@ -72,10 +72,12 @@ class EntitySpawnSystem(
                 if (config.animationModel.isAny(AnimationModel.PLAYER, AnimationModel.SLIME)) {
                     it += MovementComponent(5f)
                     it += CollisionZoneComponent()
+                    it += LifeComponent(10f, 10f)
                 }
 
                 if (config.animationModel == AnimationModel.PLAYER) {
                     it += PlayerComponent()
+                    it += AttackComponent(damage = 5)
                 }
             }
         }

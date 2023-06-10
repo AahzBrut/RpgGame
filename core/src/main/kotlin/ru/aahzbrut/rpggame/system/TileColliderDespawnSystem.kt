@@ -22,6 +22,8 @@ class TileColliderDespawnSystem(
     override fun onTickEntity(entity: Entity) {
         entity[TiledColliderComponent].run {
             nearbyEntities.removeIf {
+                if (!it.has(PhysicsComponent)) return@removeIf true
+
                 val entityPosition = entity[PhysicsComponent].body.position
                 val nearbyPosition = it[PhysicsComponent].body.position
                 val distance = vec2().set(nearbyPosition).minus(entityPosition)

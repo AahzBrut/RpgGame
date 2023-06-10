@@ -13,7 +13,7 @@ class LifeManagementSystem : IteratingSystem(
     override fun onTickEntity(entity: Entity) {
         entity[LifeComponent].run {
             currentValue += regenerationValue * deltaTime
-            currentValue.coerceAtMost(maxValue)
+            currentValue.coerceAtLeast(maxValue)
 
             currentValue -= damageValue
             damageValue = 0f
