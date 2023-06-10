@@ -13,7 +13,6 @@ import ktx.graphics.use
 import ktx.math.minus
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.component.AttackComponent
-import ru.aahzbrut.rpggame.component.PhysicsComponent
 
 class DebugSystem(
     private val physicsWorld: World = inject(),
@@ -33,9 +32,9 @@ class DebugSystem(
         physicsRenderer.render(physicsWorld, stage.camera.combined)
         shapeRenderer.use(ShapeRenderer.ShapeType.Line, stage.camera){ renderer->
             renderer.setColor(1f, 0f, 0f, 1f)
-            world.family { all(AttackComponent, PhysicsComponent) }.forEach {
+            world.family { all(AttackComponent) }.forEach {
                 with(it[AttackComponent]){
-                    val halfSize = vec2().set(it[PhysicsComponent].size).scl(0.5f)
+                    val halfSize = vec2().set(attackAreaSize).scl(0.5f)
                     if (this.attackAreaCenter != Vector2.Zero){
                         val screenCenter = vec2().set(attackAreaCenter).minus(halfSize)
                         renderer.rect(screenCenter, attackAreaSize)

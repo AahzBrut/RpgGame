@@ -9,6 +9,7 @@ import com.github.quillraven.fleks.World.Companion.inject
 import ktx.box2d.query
 import ktx.math.plus
 import ktx.math.vec2
+import ru.aahzbrut.rpggame.abs
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.AttackState
 import ru.aahzbrut.rpggame.entity
@@ -43,8 +44,9 @@ class AttackSystem(
         val physicsComponent = entity[PhysicsComponent]
         val attackDirection = animationComponent.direction
         val position = physicsComponent.body.position
-        val size = physicsComponent.size
-        val attackCenter = vec2().set(position).plus(vec2().set(attackDirection).scl(size))
+        val entitySize = physicsComponent.size
+        val attackCenter = vec2().set(position).plus(vec2().set(attackDirection).scl(entitySize).scl(0.5f))
+        val size = vec2().set(entitySize).plus(vec2().set(attackDirection).abs().scl(entitySize))
 
         it.attackAreaCenter.set(attackCenter)
         it.attackAreaSize.set(size)
