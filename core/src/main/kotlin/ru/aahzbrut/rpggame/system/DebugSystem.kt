@@ -15,8 +15,8 @@ import ru.aahzbrut.rpggame.component.AttackComponent
 
 class DebugSystem(
     private val physicsWorld: World = inject(),
-    private val stage: Stage = inject()
-) : IntervalSystem(enabled = true) {
+    private val gameStage: Stage = inject("gameStage")
+) : IntervalSystem(enabled = false) {
     private lateinit var physicsRenderer: Box2DDebugRenderer
     private lateinit var shapeRenderer: ShapeRenderer
 
@@ -28,8 +28,8 @@ class DebugSystem(
     }
 
     override fun onTick() {
-        physicsRenderer.render(physicsWorld, stage.camera.combined)
-        shapeRenderer.use(ShapeRenderer.ShapeType.Line, stage.camera){ renderer->
+        physicsRenderer.render(physicsWorld, gameStage.camera.combined)
+        shapeRenderer.use(ShapeRenderer.ShapeType.Line, gameStage.camera){ renderer->
             renderer.setColor(1f, 0f, 0f, 1f)
             world.family { all(AttackComponent) }.forEach {
                 with(it[AttackComponent]){

@@ -14,11 +14,11 @@ import ru.aahzbrut.rpggame.component.PlayerComponent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 
 class CameraFollowSystem(
-    stage: Stage = inject()
+    gameStage: Stage = inject("gameStage")
 ) : EventListener, IteratingSystem(
     family { all(PlayerComponent, ImageComponent) }
 ) {
-    private val camera = stage.camera
+    private val camera = gameStage.camera
     private var mapWidth = 0f
     private var mapHeight = 0f
 

@@ -23,10 +23,12 @@ class InputSystem(
 ) {
 
     override fun onTickEntity(entity: Entity) {
-        if (keyBindings.isTryingToAttack) {
-            entity[AttackComponent].startAttack()
+        val attackComponent = entity[AttackComponent]
+        if (keyBindings.isTryingToAttack && attackComponent.isReady) {
+            attackComponent.startAttack()
             return
         }
+        if (!attackComponent.isReady) return
 
         val moveDirection = keyBindings.moveDirection
         entity[MovementComponent].direction.set(moveDirection)

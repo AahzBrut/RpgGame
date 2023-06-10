@@ -9,6 +9,7 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import ktx.app.gdxError
 import ktx.collections.map
+import ru.aahzbrut.rpggame.FRAME_DURATION
 import ru.aahzbrut.rpggame.component.AnimationComponent
 import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.data.AnimationId
@@ -18,10 +19,6 @@ class AnimationSystem(
 ) : IteratingSystem(
     family { all(AnimationComponent, ImageComponent) }
 ) {
-    companion object {
-        private val logger = ktx.log.logger<AnimationSystem>()
-        private const val frameDuration = 1/8f
-    }
 
     private val animCache = mutableMapOf<AnimationId, Animation<TextureRegionDrawable>>()
 
@@ -33,10 +30,9 @@ class AnimationSystem(
             animComponent.stateTime += deltaTime
         } else {
             animComponent.animation = animCache.getOrPut(nextAnimation) {
-                logger.debug { "New Animation is created for ${nextAnimation.regionName}" }
                 val regions = textureAtlas.findRegions(nextAnimation.regionName)
                 if (regions.isEmpty) gdxError("There are no texture regions for ${animComponent.nextAnimation}")
-                Animation(frameDuration, regions.map { TextureRegionDrawable(it) })
+                Animation(FRAME_DURATION, regions.map { TextureRegionDrawable(it) })
             }
             animComponent.stateTime = 0f
             animComponent.nextAnimation = null

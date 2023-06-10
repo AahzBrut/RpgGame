@@ -14,7 +14,7 @@ import ru.aahzbrut.rpggame.event.ColliderDespawnedEvent
 import kotlin.math.absoluteValue
 
 class TileColliderDespawnSystem(
-    private val stage: Stage = inject()
+    private val gameStage: Stage = inject("gameStage")
 ) : IteratingSystem(
     family { all(TiledColliderComponent, PhysicsComponent) }
 ) {
@@ -33,7 +33,7 @@ class TileColliderDespawnSystem(
             }
 
             if (nearbyEntities.isEmpty()) {
-                stage.root.fire(ColliderDespawnedEvent(cell))
+                gameStage.root.fire(ColliderDespawnedEvent(cell))
                 entity.remove()
             }
         }

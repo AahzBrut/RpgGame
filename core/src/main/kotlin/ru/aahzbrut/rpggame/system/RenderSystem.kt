@@ -20,22 +20,23 @@ import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 
 class RenderSystem(
-    private val stage: Stage = inject(),
+    private val gameStage: Stage = inject("gameStage"),
+    private val uiStage: Stage = inject("uiStage")
 ) : EventListener, IteratingSystem(
     family { all(ImageComponent)},
     comparator = compareEntityBy(ImageComponent)
 ) {
     private val backgroundLayers = mutableListOf<TiledMapTileLayer>()
     private val foregroundLayers = mutableListOf<TiledMapTileLayer>()
-    private val mapRenderer = OrthogonalTiledMapRenderer(null, UNIT_SCALE, stage.batch)
+    private val mapRenderer = OrthogonalTiledMapRenderer(null, UNIT_SCALE, gameStage.batch)
 
     override fun onTick() {
         super.onTick()
 
-        with(stage){
+        with(gameStage){
             viewport.apply()
             AnimatedTiledMapTile.updateAnimationBaseTime()
-            mapRenderer.setView(stage.camera as OrthographicCamera)
+            mapRenderer.setView(gameStage.camera as OrthographicCamera)
 
             renderLayers(backgroundLayers)
 
@@ -44,11 +45,17 @@ class RenderSystem(
 
             renderLayers(foregroundLayers)
         }
+
+        with(uiStage){
+            viewport.apply()
+            act(deltaTime)
+            draw()
+        }
     }
 
     private fun renderLayers(layers: List<TiledMapTileLayer>) {
         if (layers.isNotEmpty()) {
-            stage.batch.use {
+            gameStage.batch.use {
                 layers.forEach { mapRenderer.renderTileLayer(it) }
             }
         }
