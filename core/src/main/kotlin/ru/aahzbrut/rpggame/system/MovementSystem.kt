@@ -7,15 +7,20 @@ import com.github.quillraven.fleks.World.Companion.family
 import ktx.math.minus
 import ktx.math.unaryMinus
 import ktx.math.vec2
+import ru.aahzbrut.rpggame.ai.DefaultState
 import ru.aahzbrut.rpggame.component.MovementComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent
+import ru.aahzbrut.rpggame.component.StateComponent
 
 class MovementSystem : IteratingSystem(
-    family { all(MovementComponent, PhysicsComponent) }
+    family { all(MovementComponent, PhysicsComponent, StateComponent) }
 ) {
 
     override fun onTickEntity(entity: Entity) {
         entity[MovementComponent].let {
+            if (!entity[StateComponent].stateMachine.isInState(DefaultState.RUN)) {
+                it.direction.setZero()
+            }
             entity[PhysicsComponent].run {
                 if (it.direction.epsilonEquals(Vector2.Zero)) {
                     val negatingVelocity = vec2()

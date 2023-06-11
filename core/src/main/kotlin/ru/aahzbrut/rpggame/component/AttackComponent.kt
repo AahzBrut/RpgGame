@@ -12,7 +12,7 @@ class AttackComponent(
     var state: AttackState = AttackState.READY,
     var damage: Int = 0,
     var delay: Float = 0f,
-    var maxDelay: Float = 1.5f,
+    var maxDelay: Float = 0f,
     var extraRange: Float = 0f,
     var attackAreaCenter: Vector2 = vec2(),
     var attackAreaSize: Vector2 = vec2(),

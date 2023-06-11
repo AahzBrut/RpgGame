@@ -28,7 +28,11 @@ class AttackSystem(
                 return
             }
 
-            if (it.delay > 0 ) it.delay -= deltaTime
+            if (it.delay > 0) {
+                it.delay -= deltaTime
+            }
+
+            if (entity[AnimationComponent].isDone) it.state = AttackState.READY
 
             if (it.delay <= 0 && it.isAttacking) {
                 doAttack(it, entity)
@@ -72,7 +76,5 @@ class AttackSystem(
 
             true
         }
-
-        it.state = AttackState.READY
     }
 }

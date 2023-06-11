@@ -43,7 +43,7 @@ class EntitySpawnSystem(
                         setPosition(location.x, location.y)
                     }
                 }
-                it += AnimationComponent().apply {
+                it += AnimationComponent(config.animationModel).apply {
                     setAnimation(
                         AnimationId(
                             config.animationModel,
@@ -103,8 +103,8 @@ class EntitySpawnSystem(
 
     private fun spawnConfig(type: String): SpawnConfig = spawnConfigCache.getOrPut(type) {
         when (type) {
-            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH)
-            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE)
+            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH, components = listOf(StateComponent()))
+            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE, components = listOf(StateComponent()))
             "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f, listOf(LootComponent()))
             else -> gdxError("Unknown model type: $type")
         }

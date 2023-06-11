@@ -3,16 +3,12 @@ package ru.aahzbrut.rpggame.screen
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
-import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.World
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.github.quillraven.fleks.world
-import ktx.actors.plusAssign
 import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
@@ -22,20 +18,22 @@ import ru.aahzbrut.rpggame.UI_WINDOW_WIDTH
 import ru.aahzbrut.rpggame.WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.WINDOW_WIDTH
 import ru.aahzbrut.rpggame.component.FloatingTextComponent
+import ru.aahzbrut.rpggame.component.FloatingTextComponent.Companion.onFloatingTextAdd
+import ru.aahzbrut.rpggame.component.FloatingTextComponent.Companion.onFloatingTextRemove
 import ru.aahzbrut.rpggame.component.ImageComponent
+import ru.aahzbrut.rpggame.component.ImageComponent.Companion.onImageAdd
+import ru.aahzbrut.rpggame.component.ImageComponent.Companion.onImageRemove
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
+import ru.aahzbrut.rpggame.component.StateComponent
+import ru.aahzbrut.rpggame.component.StateComponent.Companion.onStateAdd
 import ru.aahzbrut.rpggame.data.UIStyles
-import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.system.*
 
 class GameScreen : KtxScreen {
-    companion object {
-        val logger = ktx.log.logger<GameScreen>()
-    }
-
     private val gameStage: Stage = Stage(ExtendViewport(WINDOW_WIDTH, WINDOW_HEIGHT))
     private val uiStage: Stage = Stage(ExtendViewport(UI_WINDOW_WIDTH, UI_WINDOW_HEIGHT))
     private val charactersAtlas = TextureAtlas("graphics/characters/Characters.atlas")
@@ -57,26 +55,18 @@ class GameScreen : KtxScreen {
         }
 
         components {
-            onAdd(ImageComponent) { _, component -> gameStage.addActor(component.image) }
-            onRemove(ImageComponent) { _, component -> gameStage.root.removeActor(component.image) }
+            onAdd(ImageComponent, onImageAdd)
+            onRemove(ImageComponent, onImageRemove)
             onAdd(PhysicsComponent, onPhysicAdd)
             onRemove(PhysicsComponent, onPhysicRemove)
-            onAdd(FloatingTextComponent) { _, component ->
-                uiStage.addActor(component.label)
-                component.label += fadeOut(component.lifeSpan, Interpolation.pow3OutInverse)
-                @Suppress("kotlin:S6518")
-                component.targetLocation.set(
-                    component.startLocation.x + MathUtils.random(-1.5f, 1.5f),
-                    component.startLocation.y + 1.5f,
-                )
-                component.startLocation.toUiCoordinates()
-                component.targetLocation.toUiCoordinates()
-            }
-            onRemove(FloatingTextComponent) { _, component -> uiStage.root.removeActor(component.label) }
+            onAdd(FloatingTextComponent, onFloatingTextAdd)
+            onRemove(FloatingTextComponent, onFloatingTextRemove)
+            onAdd(StateComponent, onStateAdd)
         }
 
         systems {
             add(InputSystem())
+            add(StateSystem())
             add(CollisionSpawnSystem())
             add(TileColliderDespawnSystem())
             add(EntitySpawnSystem())
@@ -95,7 +85,6 @@ class GameScreen : KtxScreen {
     }
 
     override fun show() {
-        logger.debug { "GameScreen displayed." }
         registerEventListeners()
         loadMap()
     }
@@ -130,10 +119,5 @@ class GameScreen : KtxScreen {
         currentMap.disposeSafely()
         world.dispose()
         physicsWorld.disposeSafely()
-    }
-
-    private fun Vector2.toUiCoordinates() {
-        gameStage.viewport.project(this)
-        uiStage.viewport.unproject(this)
     }
 }

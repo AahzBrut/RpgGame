@@ -7,14 +7,19 @@ import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.data.AnimationId
+import ru.aahzbrut.rpggame.data.AnimationModel
+import ru.aahzbrut.rpggame.data.AnimationType
 
 class AnimationComponent(
+    private val model: AnimationModel,
     var stateTime: Float = 0f,
     var playMode: Animation.PlayMode = Animation.PlayMode.LOOP,
 ) : Component<AnimationComponent> {
     lateinit var animation: Animation<TextureRegionDrawable>
     var nextAnimation: AnimationId? = null
     var currentAnimation: AnimationId? = null
+
+    val isDone: Boolean get() = animation.isAnimationFinished(stateTime)
 
     val direction: Vector2 get() = currentAnimation?.facing?.direction ?: vec2(0f, -1f)
 
@@ -23,6 +28,12 @@ class AnimationComponent(
     fun setAnimation(animationId: AnimationId) {
         nextAnimation = animationId
         currentAnimation = nextAnimation
+    }
+
+    fun setAnimation(animationType: AnimationType) {
+        val nextAnimationId = AnimationId(model, animationType, currentAnimation!!.facing)
+        nextAnimation = nextAnimationId
+        currentAnimation = nextAnimationId
     }
 
     companion object : ComponentType<AnimationComponent>()
