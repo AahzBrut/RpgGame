@@ -7,7 +7,7 @@ import com.github.quillraven.fleks.World.Companion.family
 import ktx.math.minus
 import ktx.math.unaryMinus
 import ktx.math.vec2
-import ru.aahzbrut.rpggame.ai.DefaultState
+import ru.aahzbrut.rpggame.ai.CharacterState
 import ru.aahzbrut.rpggame.component.MovementComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.StateComponent
@@ -18,7 +18,7 @@ class MovementSystem : IteratingSystem(
 
     override fun onTickEntity(entity: Entity) {
         entity[MovementComponent].let {
-            if (!entity[StateComponent].stateMachine.isInState(DefaultState.RUN)) {
+            if (!entity[StateComponent].stateMachine.isInState(CharacterState.RUN)) {
                 it.direction.setZero()
             }
             entity[PhysicsComponent].run {

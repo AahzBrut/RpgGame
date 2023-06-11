@@ -11,7 +11,7 @@ import ru.aahzbrut.rpggame.component.StateComponent
 import ru.aahzbrut.rpggame.data.AnimationType
 import ru.aahzbrut.rpggame.input.KeyBindings
 
-class StateEntity(
+class StateContext(
     private val entity: Entity,
     private val world: World,
 ) {

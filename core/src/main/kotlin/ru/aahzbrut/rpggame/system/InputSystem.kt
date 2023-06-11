@@ -6,7 +6,7 @@ import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
 import ktx.app.gdxError
-import ru.aahzbrut.rpggame.ai.DefaultState
+import ru.aahzbrut.rpggame.ai.CharacterState
 import ru.aahzbrut.rpggame.component.AnimationComponent
 import ru.aahzbrut.rpggame.component.MovementComponent
 import ru.aahzbrut.rpggame.component.PlayerComponent
@@ -24,7 +24,7 @@ class InputSystem(
 ) {
 
     override fun onTickEntity(entity: Entity) {
-        if (entity.getOrNull(StateComponent)?.stateMachine?.currentState == DefaultState.ATTACK) return
+        if (entity.getOrNull(StateComponent)?.stateMachine?.currentState == CharacterState.ATTACK) return
         val moveDirection = keyBindings.moveDirection
         entity[MovementComponent].direction.set(moveDirection)
         val animationComponent = entity[AnimationComponent]
