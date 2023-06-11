@@ -79,6 +79,8 @@ class EntitySpawnSystem(
                     it += PlayerComponent()
                     it += AttackComponent(damage = 5)
                 }
+
+                it += config.components
             }
         }
         entity.remove()
@@ -103,7 +105,7 @@ class EntitySpawnSystem(
         when (type) {
             "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH)
             "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE)
-            "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f)
+            "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f, listOf(LootComponent()))
             else -> gdxError("Unknown model type: $type")
         }
     }

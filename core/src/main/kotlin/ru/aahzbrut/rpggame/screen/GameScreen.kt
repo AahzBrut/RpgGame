@@ -82,6 +82,7 @@ class GameScreen : KtxScreen {
             add(EntitySpawnSystem())
             add(MovementSystem())
             add(AttackSystem())
+            add(LootSystem())
             add(PhysicsSystem())
             add(DeathManagementSystem())
             add(LifeManagementSystem())

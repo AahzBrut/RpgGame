@@ -9,10 +9,7 @@ import com.github.quillraven.fleks.World.Companion.inject
 import ktx.box2d.query
 import ktx.math.plus
 import ru.aahzbrut.rpggame.abs
-import ru.aahzbrut.rpggame.component.AnimationComponent
-import ru.aahzbrut.rpggame.component.AttackComponent
-import ru.aahzbrut.rpggame.component.LifeComponent
-import ru.aahzbrut.rpggame.component.PhysicsComponent
+import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.AttackState
 import ru.aahzbrut.rpggame.entity
 
@@ -28,13 +25,14 @@ class AttackSystem(
             if (it.isPrepared && it.startAttack) {
                 it.startAttack = false
                 it.state = AttackState.ATTACK
-                it.delay = it.maxDelay
                 return
             }
 
-            it.delay -= deltaTime
+            if (it.delay > 0 ) it.delay -= deltaTime
+
             if (it.delay <= 0 && it.isAttacking) {
                 doAttack(it, entity)
+                it.delay = it.maxDelay
             }
         }
     }
@@ -61,9 +59,17 @@ class AttackSystem(
         ) { fixture ->
             if (fixture.isSensor) return@query true
             if (entity == fixture.entity) return@query true
-            if (fixture.entity.has(LifeComponent)) {
-                fixture.entity[LifeComponent].damageValue += it.damage * MathUtils.random(0.9f, 1.1f)
+
+            fixture.entity.getOrNull(LifeComponent)?.run {
+                damageValue += it.damage * MathUtils.random(0.9f, 1.1f)
             }
+
+            if (entity has PlayerComponent) {
+                fixture.entity.getOrNull(LootComponent)?.run {
+                    lootingEntity = entity
+                }
+            }
+
             true
         }
 
