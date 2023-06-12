@@ -144,4 +144,10 @@ class StateContext(
             }
         }
     }
+
+    fun removeEntity() {
+        with(world){
+            entity.remove()
+        }
+    }
 }

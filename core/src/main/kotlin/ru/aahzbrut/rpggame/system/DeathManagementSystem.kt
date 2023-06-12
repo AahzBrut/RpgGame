@@ -17,7 +17,7 @@ class DeathManagementSystem : IteratingSystem(
             }
 
             reviveTime -= deltaTime
-            if (reviveTime <= 0){
+            if (reviveTime <= 0f){
                 entity[LifeComponent].run {
                     currentValue = maxValue
                 }

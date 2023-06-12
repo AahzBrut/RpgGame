@@ -80,7 +80,13 @@ class EntitySpawnSystem(
                     it += AttackComponent(damage = 5)
                 }
 
-                it += config.components
+                if (config.isStateful) {
+                    it += StateComponent()
+                }
+
+                if (config.isLootable) {
+                    it += LootComponent()
+                }
             }
         }
         entity.remove()
@@ -103,9 +109,9 @@ class EntitySpawnSystem(
 
     private fun spawnConfig(type: String): SpawnConfig = spawnConfigCache.getOrPut(type) {
         when (type) {
-            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH, components = listOf(StateComponent()))
-            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE, components = listOf(StateComponent()))
-            "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f, listOf(LootComponent()))
+            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH, isStateful = true)
+            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE, isStateful = false)
+            "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f, isLootable = true)
             else -> gdxError("Unknown model type: $type")
         }
     }

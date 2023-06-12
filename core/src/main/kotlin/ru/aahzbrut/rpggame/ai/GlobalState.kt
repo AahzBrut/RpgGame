@@ -1,11 +1,13 @@
 package ru.aahzbrut.rpggame.ai
 
+import ru.aahzbrut.rpggame.ai.character_state.DEAD
+
 enum class GlobalState: AiState {
     CHECK_ALIVE {
         override fun update(context: StateContext) {
             if (context.isDead) {
                 context.enableGlobalState(false)
-                context.state(CharacterState.DEAD, true)
+                context.state(DEAD, true)
             }
         }
     },

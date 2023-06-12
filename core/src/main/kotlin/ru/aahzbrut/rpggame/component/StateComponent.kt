@@ -5,13 +5,13 @@ import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentHook
 import com.github.quillraven.fleks.ComponentType
 import ru.aahzbrut.rpggame.ai.StateContext
-import ru.aahzbrut.rpggame.ai.CharacterState
 import ru.aahzbrut.rpggame.ai.AiState
 import ru.aahzbrut.rpggame.ai.GlobalState
+import ru.aahzbrut.rpggame.ai.character_state.IDLE
 
 class StateComponent(
     val stateMachine: DefaultStateMachine<StateContext, AiState> = DefaultStateMachine(),
-    var nextState: AiState = CharacterState.IDLE,
+    var nextState: AiState = IDLE,
 ) : Component<StateComponent> {
 
     init {
