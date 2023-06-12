@@ -14,8 +14,6 @@ object DEAD : CharacterState() {
     override fun update(context: StateContext) {
         if (!context.isDead) {
             context.state(RESURRECT)
-        } else if (context.isAnimationDone) {
-            context.removeEntity()
         }
     }
 }

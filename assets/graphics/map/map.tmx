@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="22">
+ <properties>
+  <property name="music" value="audio/music/fields.ogg"/>
+ </properties>
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="145" name="Entities" tilewidth="48" tileheight="48" tilecount="3" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
@@ -28,7 +31,7 @@
    eJxjYBi6oAqI24CYf4DsFwBiQSAWIlGfMBCLoImR4xdRIBYDYnES7ccGsPkFmztpBSj1Cz3dSikYbOmW3mFHzXSLDugRtvjCC1eZQK8wpmXYDmdAafwMpfJnFCAAALsOB0k=
   </data>
  </layer>
- <objectgroup id="4" name="entities" visible="0">
+ <objectgroup id="4" name="entities">
   <object id="1" name="Player" type="Player" gid="145" x="7.60662" y="280.667" width="48" height="48"/>
   <object id="2" name="Slime" type="Slime" gid="146" x="184.539" y="151.146" width="32" height="32"/>
   <object id="3" name="Slime" type="Slime" gid="146" x="86.994" y="133.162" width="32" height="32"/>

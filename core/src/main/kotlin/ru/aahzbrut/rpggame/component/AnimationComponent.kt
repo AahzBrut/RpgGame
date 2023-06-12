@@ -12,7 +12,7 @@ import ru.aahzbrut.rpggame.data.AnimationType
 import ru.aahzbrut.rpggame.data.FacingType
 
 class AnimationComponent(
-    private val model: AnimationModel,
+    val model: AnimationModel,
     var stateTime: Float = 0f,
     var playMode: Animation.PlayMode = Animation.PlayMode.LOOP,
 ) : Component<AnimationComponent> {

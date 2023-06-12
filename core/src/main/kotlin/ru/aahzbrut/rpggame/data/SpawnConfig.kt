@@ -9,5 +9,4 @@ class SpawnConfig(
     val scale: Float = 1f,
     val isStateful: Boolean = false,
     val isLootable: Boolean = false,
-) {
-}
+)

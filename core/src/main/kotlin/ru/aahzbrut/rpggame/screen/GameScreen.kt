@@ -81,6 +81,7 @@ class GameScreen : KtxScreen {
             add(FloatingTextSystem())
             add(RenderSystem())
             add(DebugSystem())
+            add(AudioSystem())
         }
     }
 
