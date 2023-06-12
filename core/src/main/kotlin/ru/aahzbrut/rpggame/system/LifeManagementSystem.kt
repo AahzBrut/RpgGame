@@ -12,7 +12,7 @@ import ru.aahzbrut.rpggame.data.UIStyles
 class LifeManagementSystem(
     private val uiStyles: UIStyles = inject()
 ) : IteratingSystem(
-    family { all(LifeComponent, PhysicsComponent).none(DeathComponent) }
+    family { all(LifeComponent, PhysicsComponent, AnimationComponent).none(DeathComponent) }
 ) {
     override fun onTickEntity(entity: Entity) {
         entity[LifeComponent].run {

@@ -7,11 +7,16 @@ import com.github.quillraven.fleks.ComponentType
 import ru.aahzbrut.rpggame.ai.StateContext
 import ru.aahzbrut.rpggame.ai.CharacterState
 import ru.aahzbrut.rpggame.ai.AiState
+import ru.aahzbrut.rpggame.ai.GlobalState
 
 class StateComponent(
     val stateMachine: DefaultStateMachine<StateContext, AiState> = DefaultStateMachine(),
     var nextState: AiState = CharacterState.IDLE,
 ) : Component<StateComponent> {
+
+    init {
+        stateMachine.globalState = GlobalState.CHECK_ALIVE
+    }
 
     companion object : ComponentType<StateComponent>(){
         val onStateAdd: ComponentHook<StateComponent> = { entity, component ->

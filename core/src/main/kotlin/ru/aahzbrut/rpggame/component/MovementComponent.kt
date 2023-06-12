@@ -9,7 +9,15 @@ class MovementComponent(
     var speed: Float = 0f,
     val direction: Vector2 = vec2()
 ) : Component<MovementComponent> {
+    companion object : ComponentType<MovementComponent>()
+
+    var enabled: Boolean = true
+    val previousDirection: Vector2 = vec2()
+
     override fun type() = MovementComponent
 
-    companion object : ComponentType<MovementComponent>()
+    fun updateDirection(newDirection: Vector2) {
+        previousDirection.set(direction)
+        direction.set(newDirection)
+    }
 }

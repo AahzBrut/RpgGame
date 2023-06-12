@@ -9,6 +9,7 @@ import ktx.math.vec2
 import ru.aahzbrut.rpggame.data.AnimationId
 import ru.aahzbrut.rpggame.data.AnimationModel
 import ru.aahzbrut.rpggame.data.AnimationType
+import ru.aahzbrut.rpggame.data.FacingType
 
 class AnimationComponent(
     private val model: AnimationModel,
@@ -34,6 +35,16 @@ class AnimationComponent(
         val nextAnimationId = AnimationId(model, animationType, currentAnimation!!.facing)
         nextAnimation = nextAnimationId
         currentAnimation = nextAnimationId
+    }
+
+    fun setAnimation(animationType: AnimationType, facing: FacingType) {
+        val nextAnimationId = AnimationId(model, animationType, facing)
+        nextAnimation = nextAnimationId
+        currentAnimation = nextAnimationId
+    }
+
+    fun updateFacing(facing: FacingType) {
+        currentAnimation = AnimationId(model, currentAnimation!!.type, facing)
     }
 
     companion object : ComponentType<AnimationComponent>()
