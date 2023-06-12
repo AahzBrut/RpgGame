@@ -1,6 +1,6 @@
 package ru.aahzbrut.rpggame.ai
 
-import ru.aahzbrut.rpggame.ai.character_state.DEAD
+import ru.aahzbrut.rpggame.ai.state.DEAD
 
 enum class GlobalState: AiState {
     CHECK_ALIVE {

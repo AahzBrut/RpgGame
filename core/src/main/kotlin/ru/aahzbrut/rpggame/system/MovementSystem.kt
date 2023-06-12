@@ -9,10 +9,9 @@ import ktx.math.unaryMinus
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.component.MovementComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent
-import ru.aahzbrut.rpggame.component.StateComponent
 
 class MovementSystem : IteratingSystem(
-    family { all(MovementComponent, PhysicsComponent, StateComponent) }
+    family { all(MovementComponent, PhysicsComponent) }
 ) {
 
     override fun onTickEntity(entity: Entity) {

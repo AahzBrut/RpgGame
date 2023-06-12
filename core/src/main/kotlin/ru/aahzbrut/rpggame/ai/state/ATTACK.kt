@@ -1,4 +1,4 @@
-package ru.aahzbrut.rpggame.ai.character_state
+package ru.aahzbrut.rpggame.ai.state
 
 import com.badlogic.gdx.graphics.g2d.Animation
 import ru.aahzbrut.rpggame.ai.StateContext

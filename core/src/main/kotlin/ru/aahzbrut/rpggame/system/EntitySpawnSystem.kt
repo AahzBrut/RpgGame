@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.github.quillraven.fleks.Entity
+import com.github.quillraven.fleks.EntityCreateContext
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.github.quillraven.fleks.World.Companion.inject
@@ -69,27 +70,34 @@ class EntitySpawnSystem(
                     }
                 }
 
-                if (config.animationModel.isAny(AnimationModel.PLAYER, AnimationModel.SLIME)) {
-                    it += MovementComponent(5f)
-                    it += CollisionZoneComponent()
-                    it += LifeComponent(10f, 10f)
-                }
-
-                if (config.animationModel == AnimationModel.PLAYER) {
-                    it += PlayerComponent()
-                    it += AttackComponent(damage = 5)
-                }
-
-                if (config.isStateful) {
-                    it += StateComponent()
-                }
-
-                if (config.isLootable) {
-                    it += LootComponent()
-                }
+                addCommonComponents(this, config, it)
+                addOtherComponents(this, config, it)
             }
         }
         entity.remove()
+    }
+
+    private fun addCommonComponents(context: EntityCreateContext, config: SpawnConfig, it: Entity) {
+        with(context){
+            if (config.animationModel.isAny(AnimationModel.PLAYER, AnimationModel.SLIME)) {
+                it += MovementComponent(config.maxSpeed)
+                it += CollisionZoneComponent()
+                it += LifeComponent(10f, 10f)
+                it += AttackComponent(damage = 5)
+            }
+        }
+    }
+
+    private fun addOtherComponents(context: EntityCreateContext, config: SpawnConfig, it: Entity) {
+        with(context){
+            if (config.animationModel == AnimationModel.PLAYER) {
+                it += PlayerComponent()
+            }
+
+            if (config.isStateful) it += StateComponent()
+            if (config.isLootable) it += LootComponent()
+            if (config.aiTreePath.isNotEmpty()) it += BehaviourTreeComponent(treePath = config.aiTreePath)
+        }
     }
 
     override fun handle(event: Event): Boolean {
@@ -109,8 +117,15 @@ class EntitySpawnSystem(
 
     private fun spawnConfig(type: String): SpawnConfig = spawnConfigCache.getOrPut(type) {
         when (type) {
-            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH, isStateful = true)
-            "Slime" -> SpawnConfig(AnimationModel.SLIME, FacingType.NONE, isStateful = false)
+            "Player" -> SpawnConfig(AnimationModel.PLAYER, FacingType.SOUTH, isStateful = true, maxSpeed = 5f)
+            "Slime" -> SpawnConfig(
+                AnimationModel.SLIME,
+                FacingType.NONE,
+                isStateful = false,
+                aiTreePath = "ai/slime.tree",
+                maxSpeed = 1f
+            )
+
             "Chest" -> SpawnConfig(AnimationModel.CHEST, FacingType.NONE, StaticBody, 2f, isLootable = true)
             else -> gdxError("Unknown model type: $type")
         }

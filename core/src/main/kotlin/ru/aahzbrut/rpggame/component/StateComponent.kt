@@ -7,7 +7,7 @@ import com.github.quillraven.fleks.ComponentType
 import ru.aahzbrut.rpggame.ai.StateContext
 import ru.aahzbrut.rpggame.ai.AiState
 import ru.aahzbrut.rpggame.ai.GlobalState
-import ru.aahzbrut.rpggame.ai.character_state.IDLE
+import ru.aahzbrut.rpggame.ai.state.IDLE
 
 class StateComponent(
     val stateMachine: DefaultStateMachine<StateContext, AiState> = DefaultStateMachine(),

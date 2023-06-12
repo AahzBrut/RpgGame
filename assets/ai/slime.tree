@@ -1,0 +1,19 @@
+# Actions
+import idle:"ru.aahzbrut.rpggame.ai.action.Idle"
+import wander:"ru.aahzbrut.rpggame.ai.action.Wander"
+import attack:"ru.aahzbrut.rpggame.ai.action.Attack"
+
+# Conditions
+import isEnemyNearby?:"ru.aahzbrut.rpggame.ai.condition.IsEnemyNearby"
+import canAttack?:"ru.aahzbrut.rpggame.ai.condition.CanAttack"
+
+subtree name:"attack"
+  sequence
+    (isEnemyNearby?) (canAttack?) attack
+    wait seconds:"uniform,1.25,2.1"
+
+root
+  selector
+    $attack
+    (random success: 0.25) idle duration:"uniform,2.0,3.5"
+    wander

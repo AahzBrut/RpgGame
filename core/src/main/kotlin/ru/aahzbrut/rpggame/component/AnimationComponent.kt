@@ -16,6 +16,8 @@ class AnimationComponent(
     var stateTime: Float = 0f,
     var playMode: Animation.PlayMode = Animation.PlayMode.LOOP,
 ) : Component<AnimationComponent> {
+    companion object : ComponentType<AnimationComponent>()
+
     lateinit var animation: Animation<TextureRegionDrawable>
     var nextAnimation: AnimationId? = null
     var currentAnimation: AnimationId? = null
@@ -46,6 +48,4 @@ class AnimationComponent(
     fun updateFacing(facing: FacingType) {
         currentAnimation = AnimationId(model, currentAnimation!!.type, facing)
     }
-
-    companion object : ComponentType<AnimationComponent>()
 }

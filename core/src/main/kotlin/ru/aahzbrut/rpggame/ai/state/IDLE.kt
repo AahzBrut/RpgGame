@@ -1,4 +1,4 @@
-package ru.aahzbrut.rpggame.ai.character_state
+package ru.aahzbrut.rpggame.ai.state
 
 import ru.aahzbrut.rpggame.ai.StateContext
 import ru.aahzbrut.rpggame.data.AnimationType

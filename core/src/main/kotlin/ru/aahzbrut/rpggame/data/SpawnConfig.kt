@@ -9,4 +9,6 @@ class SpawnConfig(
     val scale: Float = 1f,
     val isStateful: Boolean = false,
     val isLootable: Boolean = false,
+    val aiTreePath: String = "",
+    val maxSpeed: Float = 0f,
 )

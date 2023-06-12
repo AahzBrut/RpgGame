@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
 import ktx.app.gdxError
+import ktx.math.minus
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.AnimationId
@@ -17,6 +18,38 @@ class StateContext(
     private val entity: Entity,
     private val world: World,
 ) {
+
+    val canAttack: Boolean
+        get() {
+            with(world) {
+                entity.getOrNull(AttackComponent)?.let { attackComponent ->
+                    if (!attackComponent.isReady) return false
+                    entity.getOrNull(BehaviourTreeComponent)?.let { behaviourComponent ->
+                        val enemyEntity =
+                            behaviourComponent.nearbyEntities
+                                .firstOrNull { it hasNo DeathComponent } ?: return false
+
+                        enemyEntity.getOrNull(PhysicsComponent)?.let { physicsComponent ->
+                            return inRange(1f, physicsComponent.body.position)
+                        }
+                    }
+                    return false
+                } ?: return false
+            }
+        }
+
+    val isEnemyNearby: Boolean
+        get() = with(world) {
+            entity.getOrNull(BehaviourTreeComponent)?.run {
+                if (nearbyEntities.isEmpty()) return false
+                return nearbyEntities.any { it hasNo DeathComponent }
+            } ?: return false
+        }
+
+    val position: Vector2
+        get() = with(world) {
+            return@with entity.getOrNull(PhysicsComponent)?.body?.position ?: Vector2.Zero
+        }
 
     val isAnimationDone: Boolean
         get() = with(world) {
@@ -31,6 +64,7 @@ class StateContext(
                 return entity[MovementComponent].direction != Vector2.Zero
             }
         }
+
     val wantsToAttack: Boolean
         get() {
             with(world) {
@@ -145,9 +179,21 @@ class StateContext(
         }
     }
 
-    fun removeEntity() {
-        with(world){
-            entity.remove()
+    fun inRange(range: Float, targetPosition: Vector2): Boolean {
+        with(world) {
+            entity.getOrNull(PhysicsComponent)?.run {
+                val distance = targetPosition.cpy().minus(body.position).len()
+                return distance <= range
+            }
+            return true
+        }
+    }
+
+    fun moveTo(targetPosition: Vector2) {
+        with(world) {
+            entity.getOrNull(PhysicsComponent)?.run {
+                entity.getOrNull(MovementComponent)?.direction?.set(targetPosition.cpy().minus(body.position).nor())
+            }
         }
     }
 }

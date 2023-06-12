@@ -12,10 +12,6 @@ import ru.aahzbrut.rpggame.event.SoundEffectEvent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
 
 class AudioSystem : EventListener, IntervalSystem() {
-    companion object {
-        val logger = ktx.log.logger<AudioSystem>()
-    }
-
     private val musicCache = mutableMapOf<String, Music>()
     private val soundCache = mutableMapOf<String, Sound>()
     private val soundQueue = mutableSetOf<String>()
@@ -24,10 +20,10 @@ class AudioSystem : EventListener, IntervalSystem() {
         when (event) {
             is MapChangedEvent -> {
                 event.map.propertyOrNull<String>("music")?.let { path ->
-                    logger.debug { "Music file path: $path" }
                     val music = musicCache.getOrPut(path) {
                         Gdx.audio.newMusic(Gdx.files.internal(path)).apply {
-                            this.isLooping = true
+                            isLooping = true
+                            volume = 0.3f
                         }
                     }
                     music.play()

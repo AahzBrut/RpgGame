@@ -1,5 +1,6 @@
 package ru.aahzbrut.rpggame.screen
 
+import com.badlogic.gdx.ai.GdxAI
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -17,16 +18,14 @@ import ru.aahzbrut.rpggame.UI_WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.UI_WINDOW_WIDTH
 import ru.aahzbrut.rpggame.WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.WINDOW_WIDTH
-import ru.aahzbrut.rpggame.component.FloatingTextComponent
+import ru.aahzbrut.rpggame.component.*
+import ru.aahzbrut.rpggame.component.BehaviourTreeComponent.Companion.onBehaviourTreeAdd
 import ru.aahzbrut.rpggame.component.FloatingTextComponent.Companion.onFloatingTextAdd
 import ru.aahzbrut.rpggame.component.FloatingTextComponent.Companion.onFloatingTextRemove
-import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.component.ImageComponent.Companion.onImageAdd
 import ru.aahzbrut.rpggame.component.ImageComponent.Companion.onImageRemove
-import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
-import ru.aahzbrut.rpggame.component.StateComponent
 import ru.aahzbrut.rpggame.component.StateComponent.Companion.onStateAdd
 import ru.aahzbrut.rpggame.data.UIStyles
 import ru.aahzbrut.rpggame.event.MapChangedEvent
@@ -62,11 +61,13 @@ class GameScreen : KtxScreen {
             onAdd(FloatingTextComponent, onFloatingTextAdd)
             onRemove(FloatingTextComponent, onFloatingTextRemove)
             onAdd(StateComponent, onStateAdd)
+            onAdd(BehaviourTreeComponent, onBehaviourTreeAdd)
         }
 
         systems {
             add(InputSystem())
             add(StateSystem())
+            add(BehaviourTreeSystem())
             add(CollisionSpawnSystem())
             add(TileColliderDespawnSystem())
             add(EntitySpawnSystem())
@@ -109,7 +110,9 @@ class GameScreen : KtxScreen {
     }
 
     override fun render(delta: Float) {
-        world.update(delta)
+        val dt = delta.coerceAtMost(0.25f)
+        GdxAI.getTimepiece().update(dt)
+        world.update(dt)
     }
 
     override fun dispose() {
