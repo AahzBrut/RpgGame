@@ -1,6 +1,7 @@
 package ru.aahzbrut.rpggame.ai.action
 
 import com.badlogic.gdx.ai.GdxAI
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.math.MathUtils
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.ai.Action
@@ -13,7 +14,7 @@ class Wander : Action(){
 
     override fun execute(): Status {
         if (status != Status.RUNNING) {
-            context.animation(AnimationType.RUN)
+            context.animation(AnimationType.RUN, Animation.PlayMode.LOOP)
             if (startPosition.isZero) startPosition.set(context.position)
             targetPosition.set(startPosition)
             targetPosition.x += MathUtils.random(-2f,2f)
@@ -24,7 +25,6 @@ class Wander : Action(){
         }
 
         if (context.inRange(0.1f, targetPosition)) {
-            context.moveTo(targetPosition)
             context.stopRunning()
             return Status.SUCCEEDED
         }
