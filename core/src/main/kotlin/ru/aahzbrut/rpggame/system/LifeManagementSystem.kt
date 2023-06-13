@@ -1,7 +1,6 @@
 package ru.aahzbrut.rpggame.system
 
 import com.badlogic.gdx.math.Vector2
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
@@ -11,10 +10,11 @@ import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.EffectType
 import ru.aahzbrut.rpggame.data.UIStyles
 import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class LifeManagementSystem(
+    private val eventBus: EventBus = inject(),
     private val uiStyles: UIStyles = inject(),
-    private val stage: Stage = inject("gameStage")
 ) : IteratingSystem(
     family { all(LifeComponent, PhysicsComponent, AnimationComponent).none(DeathComponent) }
 ) {
@@ -30,7 +30,7 @@ class LifeManagementSystem(
             damageValue = 0f
 
             if (isDead) {
-                stage.root.fire(SoundEffectEvent(entity[AnimationComponent].model, EffectType.DEATH))
+                eventBus.fire(SoundEffectEvent(entity[AnimationComponent].model, EffectType.DEATH))
                 entity.configure { it += DeathComponent(if (it.has(PlayerComponent)) 7f else 0f) }
             }
         }
@@ -43,7 +43,7 @@ class LifeManagementSystem(
                 startLocation.set(position.x - size.x * 0.125f, position.y - size.y * 0.125f)
                 lifeSpan = 1.5f
                 label = Label(damageValue.toInt().toString(), uiStyles.floatingLabelStyle).apply {
-                    setFontScale(2f)
+                    setFontScale(.5f)
                 }
             }
         }

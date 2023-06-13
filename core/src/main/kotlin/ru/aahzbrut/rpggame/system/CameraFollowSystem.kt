@@ -1,7 +1,5 @@
 package ru.aahzbrut.rpggame.system
 
-import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
@@ -12,10 +10,12 @@ import ktx.tiled.width
 import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.component.PlayerComponent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.GameEvent
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 
 class CameraFollowSystem(
     gameStage: Stage = inject("gameStage")
-) : EventListener, IteratingSystem(
+) : GameEventListener, IteratingSystem(
     family { all(PlayerComponent, ImageComponent) }
 ) {
     private val camera = gameStage.camera
@@ -38,12 +38,10 @@ class CameraFollowSystem(
         }
     }
 
-    override fun handle(event: Event): Boolean {
+    override fun handle(event: GameEvent) {
         if (event is MapChangedEvent) {
             mapWidth = event.map.width.toFloat()
             mapHeight = event.map.height.toFloat()
-            return true
         }
-        return false
     }
 }

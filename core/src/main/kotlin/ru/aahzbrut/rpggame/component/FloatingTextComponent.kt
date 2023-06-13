@@ -27,7 +27,7 @@ class FloatingTextComponent(
             component.label += Actions.fadeOut(component.lifeSpan, Interpolation.pow3OutInverse)
             @Suppress("kotlin:S6518")
             component.targetLocation.set(
-                component.startLocation.x + MathUtils.random(-1.5f, 1.5f),
+                component.startLocation.x + MathUtils.random(-1f, 1f),
                 component.startLocation.y + 1.5f,
             )
             component.startLocation.reproject(gameStage, uiStage)

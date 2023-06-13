@@ -6,8 +6,6 @@ import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -25,10 +23,12 @@ import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromShape2D
 import ru.aahzbrut.rpggame.component.TiledColliderComponent
 import ru.aahzbrut.rpggame.event.ColliderDespawnedEvent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.GameEvent
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 
 class CollisionSpawnSystem(
     private val physicsWorld: World = inject()
-) : EventListener, IteratingSystem(
+) : GameEventListener, IteratingSystem(
     family { all(PhysicsComponent, CollisionZoneComponent) }
 ) {
     private val tileMapLayers = mutableListOf<TiledMapTileLayer>()
@@ -61,21 +61,17 @@ class CollisionSpawnSystem(
             box(width, height) { isSensor = false }
         }
 
-    override fun handle(event: Event?): Boolean {
-        return when (event) {
+    override fun handle(event: GameEvent) {
+        when (event) {
             is MapChangedEvent -> {
                 tileMapLayers.clear()
                 event.map.forEachLayer<TiledMapTileLayer> { tileMapLayers += it }
                 spawnMapBoundaries(event)
-                true
             }
 
             is ColliderDespawnedEvent -> {
                 cellsWithCollider -= event.cell
-                true
             }
-
-            else -> false
         }
     }
 

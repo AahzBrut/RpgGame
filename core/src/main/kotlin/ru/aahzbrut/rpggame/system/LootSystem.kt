@@ -1,7 +1,6 @@
 package ru.aahzbrut.rpggame.system
 
 import com.badlogic.gdx.graphics.g2d.Animation
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -10,9 +9,10 @@ import ru.aahzbrut.rpggame.component.AnimationComponent
 import ru.aahzbrut.rpggame.component.LootComponent
 import ru.aahzbrut.rpggame.data.*
 import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class LootSystem(
-    private val stage: Stage = inject("gameStage")
+    private val eventBus: EventBus = inject(),
 ) : IteratingSystem(
     family { all(LootComponent) }
 ) {
@@ -23,7 +23,7 @@ class LootSystem(
             entity.configure { it -= LootComponent }
 
             entity.getOrNull(AnimationComponent)?.run {
-                stage.root.fire(SoundEffectEvent(AnimationModel.CHEST, EffectType.OPEN))
+                eventBus.fire(SoundEffectEvent(AnimationModel.CHEST, EffectType.OPEN))
                 setAnimation(AnimationId(AnimationModel.CHEST, AnimationType.OPEN, FacingType.NONE))
                 playMode = Animation.PlayMode.NORMAL
             }

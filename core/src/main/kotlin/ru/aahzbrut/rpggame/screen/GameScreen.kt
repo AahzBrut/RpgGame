@@ -6,7 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.github.quillraven.fleks.world
@@ -29,10 +28,13 @@ import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
 import ru.aahzbrut.rpggame.component.StateComponent.Companion.onStateAdd
 import ru.aahzbrut.rpggame.data.UIStyles
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.system.*
 
 class GameScreen : KtxScreen {
+    private val eventBus = EventBus()
     private val gameStage: Stage = Stage(ExtendViewport(WINDOW_WIDTH, WINDOW_HEIGHT))
     private val uiStage: Stage = Stage(ExtendViewport(UI_WINDOW_WIDTH, UI_WINDOW_HEIGHT))
     private val charactersAtlas = TextureAtlas("graphics/characters/Characters.atlas")
@@ -51,6 +53,7 @@ class GameScreen : KtxScreen {
             add(charactersAtlas)
             add(physicsWorld)
             add(keyBindings)
+            add(eventBus)
         }
 
         components {
@@ -94,13 +97,13 @@ class GameScreen : KtxScreen {
     private fun loadMap() {
         currentMap = TmxMapLoader().load("graphics/map/map.tmx")
         currentMap?.let {
-            gameStage.root.fire(MapChangedEvent(it))
+            eventBus.fire(MapChangedEvent(it))
         } ?: gdxError("Failed to load TilEd map.")
     }
 
     private fun registerEventListeners() {
-        world.systems.filter { it is EventListener }.forEach {
-            gameStage.addListener(it as EventListener)
+        world.systems.filter { it is GameEventListener }.forEach {
+            eventBus.addListener(it as GameEventListener)
         }
     }
 

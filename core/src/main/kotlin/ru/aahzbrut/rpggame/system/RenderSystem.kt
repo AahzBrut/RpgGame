@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile
-import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
@@ -18,11 +16,13 @@ import ktx.tiled.forEachLayer
 import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.GameEvent
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 
 class RenderSystem(
     private val gameStage: Stage = inject("gameStage"),
     private val uiStage: Stage = inject("uiStage")
-) : EventListener, IteratingSystem(
+) : GameEventListener, IteratingSystem(
     family { all(ImageComponent)},
     comparator = compareEntityBy(ImageComponent)
 ) {
@@ -65,7 +65,7 @@ class RenderSystem(
         entity[ImageComponent].image.toFront()
     }
 
-    override fun handle(event: Event): Boolean {
+    override fun handle(event: GameEvent) {
         when (event) {
             is MapChangedEvent -> {
                 backgroundLayers.clear()
@@ -77,10 +77,8 @@ class RenderSystem(
                         backgroundLayers.add(layer)
                     }
                 }
-                return true
             }
         }
-        return false
     }
 
     override fun onDispose() {

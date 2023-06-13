@@ -15,6 +15,7 @@ class BehaviourTreeComponent(
 ) : Component<BehaviourTreeComponent> {
     companion object : ComponentType<BehaviourTreeComponent>() {
         private val treeParser = BehaviorTreeParser<StateContext>()
+
         val onBehaviourTreeAdd: ComponentHook<BehaviourTreeComponent> = { entity, component ->
             component.behaviourTree = treeParser.parse(Gdx.files.internal(component.treePath), StateContext(entity, this))
         }

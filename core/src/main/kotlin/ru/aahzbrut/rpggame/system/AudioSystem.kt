@@ -3,20 +3,20 @@ package ru.aahzbrut.rpggame.system
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.audio.Sound
-import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.github.quillraven.fleks.IntervalSystem
 import ktx.assets.disposeSafely
 import ktx.tiled.propertyOrNull
-import ru.aahzbrut.rpggame.event.SoundEffectEvent
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.GameEvent
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 
-class AudioSystem : EventListener, IntervalSystem() {
+class AudioSystem : GameEventListener, IntervalSystem() {
     private val musicCache = mutableMapOf<String, Music>()
     private val soundCache = mutableMapOf<String, Sound>()
     private val soundQueue = mutableSetOf<String>()
 
-    override fun handle(event: Event): Boolean {
+    override fun handle(event: GameEvent) {
         when (event) {
             is MapChangedEvent -> {
                 event.map.propertyOrNull<String>("music")?.let { path ->
@@ -28,13 +28,10 @@ class AudioSystem : EventListener, IntervalSystem() {
                     }
                     music.play()
                 }
-                return true
             }
 
             is SoundEffectEvent -> queueSound("audio/effects/${event.model.typeName}_${event.effectType.key}.wav")
         }
-
-        return false
     }
 
     override fun onTick() {

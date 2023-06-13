@@ -4,8 +4,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType.StaticBody
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.scenes.scene2d.Event
-import com.badlogic.gdx.scenes.scene2d.EventListener
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.EntityCreateContext
@@ -23,11 +21,13 @@ import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromImage
 import ru.aahzbrut.rpggame.data.*
 import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.GameEvent
+import ru.aahzbrut.rpggame.event_bus.GameEventListener
 
 class EntitySpawnSystem(
     private val atlas: TextureAtlas = inject(),
     private val physicsWorld: World = inject()
-) : EventListener, IteratingSystem(
+) : GameEventListener, IteratingSystem(
     family { all(SpawnComponent) }
 ) {
     private val spawnConfigCache = mutableMapOf<String, SpawnConfig>()
@@ -100,7 +100,7 @@ class EntitySpawnSystem(
         }
     }
 
-    override fun handle(event: Event): Boolean {
+    override fun handle(event: GameEvent) {
         when (event) {
             is MapChangedEvent -> {
                 val entitiesLayer = event.map.layers["entities"]
@@ -112,7 +112,6 @@ class EntitySpawnSystem(
                 }
             }
         }
-        return false
     }
 
     private fun spawnConfig(type: String): SpawnConfig = spawnConfigCache.getOrPut(type) {

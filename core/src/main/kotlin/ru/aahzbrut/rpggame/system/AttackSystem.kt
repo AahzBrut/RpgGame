@@ -2,7 +2,6 @@ package ru.aahzbrut.rpggame.system
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.physics.box2d.World
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -15,10 +14,11 @@ import ru.aahzbrut.rpggame.data.AttackState
 import ru.aahzbrut.rpggame.data.EffectType
 import ru.aahzbrut.rpggame.entity
 import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class AttackSystem(
+    private val eventBus: EventBus = inject(),
     private val physicsWorld: World = inject(),
-    private val stage: Stage = inject("gameStage")
 ) : IteratingSystem(
     family { all(AttackComponent, PhysicsComponent, AnimationComponent) }
 ) {
@@ -29,7 +29,7 @@ class AttackSystem(
             if (it.isPrepared && it.startAttack) {
                 it.startAttack = false
                 it.state = AttackState.ATTACK
-                stage.root.fire(SoundEffectEvent(entity[AnimationComponent].model, EffectType.ATTACK))
+                eventBus.fire(SoundEffectEvent(entity[AnimationComponent].model, EffectType.ATTACK))
                 return
             }
 

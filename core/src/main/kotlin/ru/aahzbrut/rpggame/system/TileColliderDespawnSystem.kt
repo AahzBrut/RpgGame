@@ -1,6 +1,5 @@
 package ru.aahzbrut.rpggame.system
 
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
@@ -11,10 +10,11 @@ import ru.aahzbrut.rpggame.COLLISION_ZONE_SIZE
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.TiledColliderComponent
 import ru.aahzbrut.rpggame.event.ColliderDespawnedEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
 import kotlin.math.absoluteValue
 
 class TileColliderDespawnSystem(
-    private val gameStage: Stage = inject("gameStage")
+    private val eventBus: EventBus = inject(),
 ) : IteratingSystem(
     family { all(TiledColliderComponent, PhysicsComponent) }
 ) {
@@ -33,7 +33,7 @@ class TileColliderDespawnSystem(
             }
 
             if (nearbyEntities.isEmpty()) {
-                gameStage.root.fire(ColliderDespawnedEvent(cell))
+                eventBus.fire(ColliderDespawnedEvent(cell))
                 entity.remove()
             }
         }
