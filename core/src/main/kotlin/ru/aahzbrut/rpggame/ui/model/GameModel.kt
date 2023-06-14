@@ -10,30 +10,16 @@ import ru.aahzbrut.rpggame.event_bus.event.LootFoundEvent
 class GameModel(
     private val world: World,
     eventBus: EventBus,
-) : PropertyChangeSource() {
+) : PropertyChangeNotifier() {
 
     init {
         eventBus.onEvent(::onEntityDamagedEvent)
         eventBus.onEvent(::onLootFoundEvent)
     }
 
-    var playerLifeAmount: Float = 0f
-        private set(newValue) {
-            notify(::playerLifeAmount, newValue)
-            field = newValue
-        }
-
-    var enemyLifeAmount: Float = 0f
-        private set(newValue) {
-            notify(::enemyLifeAmount, newValue)
-            field = newValue
-        }
-
-    var lootText: String = ""
-        private set(newValue) {
-            notify(::lootText, newValue)
-            field = newValue
-        }
+    var playerLifeAmount by propertyNotify(0f)
+    var enemyLifeAmount by propertyNotify(0f)
+    var lootText by propertyNotify("")
 
     private fun onEntityDamagedEvent(event: EntityDamagedEvent){
         with(world) {

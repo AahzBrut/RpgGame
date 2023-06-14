@@ -21,7 +21,7 @@ import ru.aahzbrut.rpggame.ui.resetFadeOutDelay
 import ru.aahzbrut.rpggame.ui.widget.CharacterInfo
 
 class HUDView(
-    private val model: GameModel,
+    model: GameModel,
     skin: Skin,
 ) : Table(skin), KTable {
     private val playerInfo: CharacterInfo
@@ -51,16 +51,16 @@ class HUDView(
             it.align(Align.left)
         }
 
-        model.onPropertyChange(model::playerLifeAmount) {lifeAmount->
+        model.onPropertyChange(GameModel::playerLifeAmount) {lifeAmount->
             setPlayerLifeValue(lifeAmount)
         }
 
-        model.onPropertyChange(model::enemyLifeAmount) {lifeAmount->
+        model.onPropertyChange(GameModel::enemyLifeAmount) {lifeAmount->
             showEnemyInfo(Drawables.SLIME, lifeAmount)
             setEnemyLifeValue(lifeAmount)
         }
 
-        model.onPropertyChange(model::lootText) {message->
+        model.onPropertyChange(GameModel::lootText) {message->
             popupMessage(message)
         }
     }
@@ -69,6 +69,7 @@ class HUDView(
 
     private fun setEnemyLifeValue(percentage: Float) = enemyInfo.setLifeValue(percentage)
 
+    @Suppress("SameParameterValue")
     private fun showEnemyInfo(portrait: Drawables?, percentage: Float) {
         enemyInfo.setCharacterPortrait(portrait)
         enemyInfo.setLifeValue(percentage, 0f)

@@ -2,7 +2,7 @@ package ru.aahzbrut.rpggame.ui.model
 
 import kotlin.reflect.KProperty
 
-abstract class PropertyChangeSource {
+abstract class PropertyChangeNotifier {
     @PublishedApi
     internal val listeners = mutableMapOf<KProperty<*>, MutableList<(Any) -> Unit>>()
 
