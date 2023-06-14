@@ -21,15 +21,19 @@ class LifeManagementSystem(
 ) {
     override fun onTickEntity(entity: Entity) {
         entity[LifeComponent].run {
+            val oldValue = currentValue
             currentValue += regenerationValue * deltaTime
             currentValue.coerceAtLeast(maxValue)
 
             currentValue -= damageValue
             if (damageValue > 0f) entity[PhysicsComponent].run {
-                eventBus.fire(EntityDamagedEvent(entity))
                 displayDamageText(damageValue, body.position, size)
             }
             damageValue = 0f
+
+            if (currentValue != oldValue) {
+                eventBus.fire(EntityDamagedEvent(entity))
+            }
 
             if (isDead) {
                 eventBus.fire(SoundEffectEvent(entity[AnimationComponent].model, EffectType.DEATH))

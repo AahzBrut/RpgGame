@@ -22,6 +22,7 @@ fun loadSkin(){
         Fonts.values().forEach {font ->
             skin[font.skinKey] = BitmapFont(Gdx.files.internal(font.fontPath), skin.getRegion(font.regionName)).apply {
                 data.setScale(font.scale)
+                data.markupEnabled = true
             }
         }
 

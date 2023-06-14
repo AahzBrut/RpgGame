@@ -50,6 +50,6 @@ class GameModel(
 
     @Suppress("UNUSED_PARAMETER")
     private fun onLootFoundEvent(ignored: LootFoundEvent){
-        lootText = "You found [#00FF00]useful item[]!"
+        lootText = "You found some [BLUE]incredible[] stuff!"
     }
 }
