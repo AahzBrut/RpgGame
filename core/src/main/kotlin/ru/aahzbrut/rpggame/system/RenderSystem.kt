@@ -15,25 +15,29 @@ import ktx.graphics.use
 import ktx.tiled.forEachLayer
 import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.ImageComponent
-import ru.aahzbrut.rpggame.event.MapChangedEvent
-import ru.aahzbrut.rpggame.event_bus.GameEvent
-import ru.aahzbrut.rpggame.event_bus.GameEventListener
+import ru.aahzbrut.rpggame.event_bus.EventBus
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 
 class RenderSystem(
+    eventBus: EventBus = inject(),
     private val gameStage: Stage = inject("gameStage"),
     private val uiStage: Stage = inject("uiStage")
-) : GameEventListener, IteratingSystem(
-    family { all(ImageComponent)},
+) : IteratingSystem(
+    family { all(ImageComponent) },
     comparator = compareEntityBy(ImageComponent)
 ) {
     private val backgroundLayers = mutableListOf<TiledMapTileLayer>()
     private val foregroundLayers = mutableListOf<TiledMapTileLayer>()
     private val mapRenderer = OrthogonalTiledMapRenderer(null, UNIT_SCALE, gameStage.batch)
 
+    init {
+        eventBus.onEvent(::handleMapChangedEvent)
+    }
+
     override fun onTick() {
         super.onTick()
 
-        with(gameStage){
+        with(gameStage) {
             viewport.apply()
             AnimatedTiledMapTile.updateAnimationBaseTime()
             mapRenderer.setView(gameStage.camera as OrthographicCamera)
@@ -46,7 +50,7 @@ class RenderSystem(
             renderLayers(foregroundLayers)
         }
 
-        with(uiStage){
+        with(uiStage) {
             viewport.apply()
             act(deltaTime)
             draw()
@@ -65,23 +69,19 @@ class RenderSystem(
         entity[ImageComponent].image.toFront()
     }
 
-    override fun handle(event: GameEvent) {
-        when (event) {
-            is MapChangedEvent -> {
-                backgroundLayers.clear()
-                foregroundLayers.clear()
-                event.map.forEachLayer<TiledMapTileLayer> {layer->
-                    if (layer.name.startsWith("foreground")){
-                        foregroundLayers.add(layer)
-                    } else {
-                        backgroundLayers.add(layer)
-                    }
-                }
-            }
-        }
-    }
-
     override fun onDispose() {
         mapRenderer.disposeSafely()
+    }
+
+    private fun handleMapChangedEvent(event: MapChangedEvent) {
+        backgroundLayers.clear()
+        foregroundLayers.clear()
+        event.map.forEachLayer<TiledMapTileLayer> { layer ->
+            if (layer.name.startsWith("foreground")) {
+                foregroundLayers.add(layer)
+            } else {
+                backgroundLayers.add(layer)
+            }
+        }
     }
 }

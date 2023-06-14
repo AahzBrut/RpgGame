@@ -1,13 +1,18 @@
 package ru.aahzbrut.rpggame.event_bus
 
-class EventBus {
-    private val listeners = mutableSetOf<GameEventListener>()
+import kotlin.reflect.KClass
 
-    fun addListener(listener: GameEventListener) {
-        listeners += listener
+class EventBus  {
+    @PublishedApi
+    internal val listeners = mutableMapOf<KClass<*>, MutableList<(Any) -> Unit>>()
+
+    @Suppress("UNCHECKED_CAST")
+    inline fun <reified T : GameEvent> onEvent(noinline action: (T) -> Unit) {
+        val actions = listeners.getOrPut(T::class) { mutableListOf() } as MutableList<(T) -> Unit>
+        actions += action
     }
 
-    fun fire(event: GameEvent) {
-        listeners.forEach { it.handle(event) }
+    inline fun <reified T : GameEvent> fire(value: T) {
+        listeners[value::class]?.forEach { it(value) }
     }
 }

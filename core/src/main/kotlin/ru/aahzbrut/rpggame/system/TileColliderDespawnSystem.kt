@@ -9,7 +9,7 @@ import ktx.math.vec2
 import ru.aahzbrut.rpggame.COLLISION_ZONE_SIZE
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.TiledColliderComponent
-import ru.aahzbrut.rpggame.event.ColliderDespawnedEvent
+import ru.aahzbrut.rpggame.event_bus.event.ColliderDespawnedEvent
 import ru.aahzbrut.rpggame.event_bus.EventBus
 import kotlin.math.absoluteValue
 

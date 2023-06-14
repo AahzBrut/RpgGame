@@ -9,18 +9,22 @@ import ktx.tiled.height
 import ktx.tiled.width
 import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.component.PlayerComponent
-import ru.aahzbrut.rpggame.event.MapChangedEvent
-import ru.aahzbrut.rpggame.event_bus.GameEvent
-import ru.aahzbrut.rpggame.event_bus.GameEventListener
+import ru.aahzbrut.rpggame.event_bus.EventBus
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 
 class CameraFollowSystem(
+    eventBus: EventBus = inject(),
     gameStage: Stage = inject("gameStage")
-) : GameEventListener, IteratingSystem(
+) : IteratingSystem(
     family { all(PlayerComponent, ImageComponent) }
 ) {
     private val camera = gameStage.camera
     private var mapWidth = 0f
     private var mapHeight = 0f
+
+    init {
+        eventBus.onEvent(::handleMapChangedEvent)
+    }
 
     @Suppress("kotlin:S6518")
     override fun onTickEntity(entity: Entity) {
@@ -38,10 +42,8 @@ class CameraFollowSystem(
         }
     }
 
-    override fun handle(event: GameEvent) {
-        if (event is MapChangedEvent) {
-            mapWidth = event.map.width.toFloat()
-            mapHeight = event.map.height.toFloat()
-        }
+    private fun handleMapChangedEvent(event: MapChangedEvent) {
+        mapWidth = event.map.width.toFloat()
+        mapHeight = event.map.height.toFloat()
     }
 }

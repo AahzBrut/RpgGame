@@ -1,4 +1,4 @@
-package ru.aahzbrut.rpggame.event
+package ru.aahzbrut.rpggame.event_bus.event
 
 import ru.aahzbrut.rpggame.data.AnimationModel
 import ru.aahzbrut.rpggame.data.EffectType

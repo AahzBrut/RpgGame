@@ -20,23 +20,28 @@ import ru.aahzbrut.rpggame.UNIT_SCALE
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromImage
 import ru.aahzbrut.rpggame.data.*
-import ru.aahzbrut.rpggame.event.MapChangedEvent
-import ru.aahzbrut.rpggame.event_bus.GameEvent
-import ru.aahzbrut.rpggame.event_bus.GameEventListener
+import ru.aahzbrut.rpggame.event_bus.event.EntityDamagedEvent
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class EntitySpawnSystem(
+    private val eventBus: EventBus = inject(),
     private val atlas: TextureAtlas = inject(),
     private val physicsWorld: World = inject()
-) : GameEventListener, IteratingSystem(
+) : IteratingSystem(
     family { all(SpawnComponent) }
 ) {
     private val spawnConfigCache = mutableMapOf<String, SpawnConfig>()
     private val sizeCache = mutableMapOf<AnimationModel, Vector2>()
 
+    init {
+        eventBus.onEvent(::handleMapChangedEvent)
+    }
+
     override fun onTickEntity(entity: Entity) {
         with(entity[SpawnComponent]) {
             val config = spawnConfig(type)
-            world.entity {
+            val newEntity = world.entity {
                 it += ImageComponent().apply {
                     image = Image().apply {
                         val size = config.animationModel.getSize(config.scale)
@@ -73,12 +78,13 @@ class EntitySpawnSystem(
                 addCommonComponents(this, config, it)
                 addOtherComponents(this, config, it)
             }
+            eventBus.fire(EntityDamagedEvent(newEntity))
         }
         entity.remove()
     }
 
     private fun addCommonComponents(context: EntityCreateContext, config: SpawnConfig, it: Entity) {
-        with(context){
+        with(context) {
             if (config.animationModel.isAny(AnimationModel.PLAYER, AnimationModel.SLIME)) {
                 it += MovementComponent(config.maxSpeed)
                 it += CollisionZoneComponent()
@@ -89,7 +95,7 @@ class EntitySpawnSystem(
     }
 
     private fun addOtherComponents(context: EntityCreateContext, config: SpawnConfig, it: Entity) {
-        with(context){
+        with(context) {
             if (config.animationModel == AnimationModel.PLAYER) {
                 it += PlayerComponent()
             }
@@ -100,16 +106,12 @@ class EntitySpawnSystem(
         }
     }
 
-    override fun handle(event: GameEvent) {
-        when (event) {
-            is MapChangedEvent -> {
-                val entitiesLayer = event.map.layers["entities"]
-                entitiesLayer.objects.forEach { mapObject ->
-                    val type = mapObject.type ?: gdxError("Map object $mapObject does not have a type.")
-                    world.entity {
-                        it += SpawnComponent(type, vec2(mapObject.x * UNIT_SCALE, mapObject.y * UNIT_SCALE))
-                    }
-                }
+    private fun handleMapChangedEvent(event: MapChangedEvent) {
+        val entitiesLayer = event.map.layers["entities"]
+        entitiesLayer.objects.forEach { mapObject ->
+            val type = mapObject.type ?: gdxError("Map object $mapObject does not have a type.")
+            world.entity {
+                it += SpawnComponent(type, vec2(mapObject.x * UNIT_SCALE, mapObject.y * UNIT_SCALE))
             }
         }
     }

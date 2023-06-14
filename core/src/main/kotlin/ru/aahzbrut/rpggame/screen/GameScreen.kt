@@ -13,6 +13,7 @@ import ktx.app.KtxScreen
 import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
+import ktx.scene2d.actors
 import ru.aahzbrut.rpggame.UI_WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.UI_WINDOW_WIDTH
 import ru.aahzbrut.rpggame.WINDOW_HEIGHT
@@ -27,11 +28,13 @@ import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
 import ru.aahzbrut.rpggame.component.StateComponent.Companion.onStateAdd
 import ru.aahzbrut.rpggame.data.UIStyles
-import ru.aahzbrut.rpggame.event.MapChangedEvent
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 import ru.aahzbrut.rpggame.event_bus.EventBus
-import ru.aahzbrut.rpggame.event_bus.GameEventListener
 import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.system.*
+import ru.aahzbrut.rpggame.ui.hudView
+import ru.aahzbrut.rpggame.ui.model.GameModel
+import ru.aahzbrut.rpggame.ui.view.HUDView
 
 class GameScreen : KtxScreen {
     private val eventBus = EventBus()
@@ -89,9 +92,14 @@ class GameScreen : KtxScreen {
         }
     }
 
+    private val gameModel = GameModel(world, eventBus)
+    private lateinit var hudView: HUDView
+
     override fun show() {
-        registerEventListeners()
         loadMap()
+        uiStage.actors {
+            hudView = hudView(gameModel)
+        }
     }
 
     private fun loadMap() {
@@ -99,12 +107,6 @@ class GameScreen : KtxScreen {
         currentMap?.let {
             eventBus.fire(MapChangedEvent(it))
         } ?: gdxError("Failed to load TilEd map.")
-    }
-
-    private fun registerEventListeners() {
-        world.systems.filter { it is GameEventListener }.forEach {
-            eventBus.addListener(it as GameEventListener)
-        }
     }
 
     override fun resize(width: Int, height: Int) {

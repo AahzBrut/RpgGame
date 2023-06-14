@@ -21,18 +21,23 @@ import ru.aahzbrut.rpggame.component.CollisionZoneComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.fromShape2D
 import ru.aahzbrut.rpggame.component.TiledColliderComponent
-import ru.aahzbrut.rpggame.event.ColliderDespawnedEvent
-import ru.aahzbrut.rpggame.event.MapChangedEvent
-import ru.aahzbrut.rpggame.event_bus.GameEvent
-import ru.aahzbrut.rpggame.event_bus.GameEventListener
+import ru.aahzbrut.rpggame.event_bus.EventBus
+import ru.aahzbrut.rpggame.event_bus.event.ColliderDespawnedEvent
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 
 class CollisionSpawnSystem(
+    eventBus: EventBus = inject(),
     private val physicsWorld: World = inject()
-) : GameEventListener, IteratingSystem(
+) : IteratingSystem(
     family { all(PhysicsComponent, CollisionZoneComponent) }
 ) {
     private val tileMapLayers = mutableListOf<TiledMapTileLayer>()
     private val cellsWithCollider = mutableSetOf<Cell>()
+
+    init {
+        eventBus.onEvent(::handleMapChangedEvent)
+        eventBus.onEvent(::handleColliderDespawnedEvent)
+    }
 
     override fun onTickEntity(entity: Entity) {
         entity[PhysicsComponent].body.position.let {bodyPosition ->
@@ -61,18 +66,14 @@ class CollisionSpawnSystem(
             box(width, height) { isSensor = false }
         }
 
-    override fun handle(event: GameEvent) {
-        when (event) {
-            is MapChangedEvent -> {
-                tileMapLayers.clear()
-                event.map.forEachLayer<TiledMapTileLayer> { tileMapLayers += it }
-                spawnMapBoundaries(event)
-            }
+    private fun handleMapChangedEvent(event: MapChangedEvent) {
+        tileMapLayers.clear()
+        event.map.forEachLayer<TiledMapTileLayer> { tileMapLayers += it }
+        spawnMapBoundaries(event)
+    }
 
-            is ColliderDespawnedEvent -> {
-                cellsWithCollider -= event.cell
-            }
-        }
+    private fun handleColliderDespawnedEvent(event: ColliderDespawnedEvent) {
+        cellsWithCollider -= event.cell
     }
 
     private fun spawnMapBoundaries(event: MapChangedEvent) {

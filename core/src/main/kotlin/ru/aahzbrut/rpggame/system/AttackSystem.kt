@@ -13,7 +13,7 @@ import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.AttackState
 import ru.aahzbrut.rpggame.data.EffectType
 import ru.aahzbrut.rpggame.entity
-import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.event.SoundEffectEvent
 import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class AttackSystem(

@@ -9,7 +9,8 @@ import com.github.quillraven.fleks.World.Companion.inject
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.data.EffectType
 import ru.aahzbrut.rpggame.data.UIStyles
-import ru.aahzbrut.rpggame.event.SoundEffectEvent
+import ru.aahzbrut.rpggame.event_bus.event.EntityDamagedEvent
+import ru.aahzbrut.rpggame.event_bus.event.SoundEffectEvent
 import ru.aahzbrut.rpggame.event_bus.EventBus
 
 class LifeManagementSystem(
@@ -25,6 +26,7 @@ class LifeManagementSystem(
 
             currentValue -= damageValue
             if (damageValue > 0f) entity[PhysicsComponent].run {
+                eventBus.fire(EntityDamagedEvent(entity))
                 displayDamageText(damageValue, body.position, size)
             }
             damageValue = 0f
