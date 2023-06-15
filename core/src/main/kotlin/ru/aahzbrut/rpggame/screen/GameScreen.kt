@@ -14,10 +14,7 @@ import ktx.app.gdxError
 import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.scene2d.actors
-import ru.aahzbrut.rpggame.UI_WINDOW_HEIGHT
-import ru.aahzbrut.rpggame.UI_WINDOW_WIDTH
-import ru.aahzbrut.rpggame.WINDOW_HEIGHT
-import ru.aahzbrut.rpggame.WINDOW_WIDTH
+import ru.aahzbrut.rpggame.*
 import ru.aahzbrut.rpggame.component.*
 import ru.aahzbrut.rpggame.component.BehaviourTreeComponent.Companion.onBehaviourTreeAdd
 import ru.aahzbrut.rpggame.component.FloatingTextComponent.Companion.onFloatingTextAdd
@@ -28,13 +25,14 @@ import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicAdd
 import ru.aahzbrut.rpggame.component.PhysicsComponent.Companion.onPhysicRemove
 import ru.aahzbrut.rpggame.component.StateComponent.Companion.onStateAdd
 import ru.aahzbrut.rpggame.data.UIStyles
-import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 import ru.aahzbrut.rpggame.event_bus.EventBus
+import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
 import ru.aahzbrut.rpggame.input.KeyBindings
 import ru.aahzbrut.rpggame.system.*
 import ru.aahzbrut.rpggame.ui.hudView
+import ru.aahzbrut.rpggame.ui.inventoryView
 import ru.aahzbrut.rpggame.ui.model.GameModel
-import ru.aahzbrut.rpggame.ui.view.HUDView
+import ru.aahzbrut.rpggame.ui.model.InventoryModel
 
 class GameScreen : KtxScreen {
     private val eventBus = EventBus()
@@ -77,6 +75,7 @@ class GameScreen : KtxScreen {
             add(CollisionSpawnSystem())
             add(TileColliderDespawnSystem())
             add(EntitySpawnSystem())
+            add(InventorySystem())
             add(MovementSystem())
             add(AttackSystem())
             add(LootSystem())
@@ -92,14 +91,16 @@ class GameScreen : KtxScreen {
         }
     }
 
-    private val gameModel = GameModel(world, eventBus)
-    private lateinit var hudView: HUDView
+    init {
+        uiStage.actors {
+            hudView(GameModel(world, eventBus))
+            inventoryView(InventoryModel(world, eventBus))
+        }
+    }
 
     override fun show() {
         loadMap()
-        uiStage.actors {
-            hudView = hudView(gameModel)
-        }
+        addGdxInputProcessor(uiStage)
     }
 
     private fun loadMap() {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Align
 import ktx.scene2d.KTable
 import ktx.scene2d.label
 import ktx.scene2d.table
+import ru.aahzbrut.rpggame.component.InventoryComponent
 import ru.aahzbrut.rpggame.ui.get
 import ru.aahzbrut.rpggame.ui.inventorySlot
 import ru.aahzbrut.rpggame.ui.model.InventoryModel
@@ -26,6 +27,7 @@ class InventoryView(
 
     init {
         setFillParent(true)
+        isVisible = false
 
         val titlePadding = 15f
 
@@ -41,7 +43,7 @@ class InventoryView(
             }
 
             table { inventoryCells ->
-                for (i in 1..24) {
+                for (i in 1..InventoryComponent.CAPACITY) {
                     this@InventoryView.inventorySlots += inventorySlot(skin = skin) { slotCell ->
                         slotCell.padBottom(2f)
                         if (i % 6 == 0) {
@@ -49,7 +51,6 @@ class InventoryView(
                         } else {
                             slotCell.padRight(2f)
                         }
-
                     }
                 }
                 inventoryCells.expand().fill().padTop(-2f)
@@ -96,10 +97,27 @@ class InventoryView(
         }
 
         initDragAndDrop()
+
+        model.onPropertyChange(InventoryModel::playerItems){items->
+            clearInventoryAndGear()
+            items.forEach {item ->
+                if (item.isEquipped) {
+                    equipItem(item)
+                } else {
+                    putItemInInventory(item)
+                }
+            }
+        }
     }
 
     fun putItemInInventory(model: ItemModel) {
         inventorySlots[model.slotIndex].putItem(model)
+    }
+
+    private fun equipItem(model: ItemModel) {
+        equipmentSlots.first { it.supportedCategory == model.category }.run {
+            putItem(model)
+        }
     }
 
     private fun initDragAndDrop() {
@@ -119,5 +137,10 @@ class InventoryView(
     private fun onItemDropped(sourceSlot: InventorySlot, targetSlot: InventorySlot, itemModel: ItemModel) {
         if (!targetSlot.isEmpty) sourceSlot.putItem(targetSlot.itemModel)
         targetSlot.putItem(itemModel)
+    }
+
+    private fun clearInventoryAndGear() {
+        inventorySlots.forEach { it.putItem(null) }
+        equipmentSlots.forEach { it.putItem(null) }
     }
 }

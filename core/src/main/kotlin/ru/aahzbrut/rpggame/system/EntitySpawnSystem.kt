@@ -35,7 +35,7 @@ class EntitySpawnSystem(
     private val sizeCache = mutableMapOf<AnimationModel, Vector2>()
 
     init {
-        eventBus.onEvent(::handleMapChangedEvent)
+        eventBus.onEvent(::onMapChangedEvent)
     }
 
     override fun onTickEntity(entity: Entity) {
@@ -98,6 +98,13 @@ class EntitySpawnSystem(
         with(context) {
             if (config.animationModel == AnimationModel.PLAYER) {
                 it += PlayerComponent()
+                it += InventoryComponent().apply {
+                    itemsToAdd += ItemType.ARMOR
+                    itemsToAdd += ItemType.HELMET
+                    itemsToAdd += ItemType.BOOTS
+                    itemsToAdd += ItemType.SWORD
+                    itemsToAdd += ItemType.BIG_SWORD
+                }
             }
 
             if (config.isStateful) it += StateComponent()
@@ -106,7 +113,7 @@ class EntitySpawnSystem(
         }
     }
 
-    private fun handleMapChangedEvent(event: MapChangedEvent) {
+    private fun onMapChangedEvent(event: MapChangedEvent) {
         val entitiesLayer = event.map.layers["entities"]
         entitiesLayer.objects.forEach { mapObject ->
             val type = mapObject.type ?: gdxError("Map object $mapObject does not have a type.")

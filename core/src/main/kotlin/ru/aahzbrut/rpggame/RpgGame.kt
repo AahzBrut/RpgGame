@@ -15,7 +15,7 @@ class RpgGame : KtxGame<KtxScreen>() {
         addScreen(GameScreen())
         addScreen(UIScreen())
         addScreen(InventoryScreen())
-        setScreen<InventoryScreen>()
+        setScreen<GameScreen>()
     }
 
     override fun dispose() {

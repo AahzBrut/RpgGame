@@ -3,6 +3,7 @@ package ru.aahzbrut.rpggame.input
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.scenes.scene2d.Stage
 import ktx.math.vec2
 import ru.aahzbrut.rpggame.DOWN
 import ru.aahzbrut.rpggame.LEFT
@@ -14,8 +15,10 @@ class KeyBindings(
     private val moveRight: Array<Int> = arrayOf(Input.Keys.D),
     private val moveUp: Array<Int> = arrayOf(Input.Keys.W),
     private val moveDown: Array<Int> = arrayOf(Input.Keys.S),
-    private val attack: Array<Int> = arrayOf(Input.Keys.SPACE)
+    private val attack: Array<Int> = arrayOf(Input.Keys.SPACE),
+    private val toggleInventory: Array<Int> = arrayOf(Input.Keys.I),
 ){
+    private var inventoryOpened = false
 
     val moveDirection: Vector2 get() {
         return vec2().also { result ->
@@ -28,4 +31,11 @@ class KeyBindings(
     }
 
     val isTryingToAttack: Boolean get() = attack.any{ Gdx.input.isKeyPressed(it)}
+
+    fun toggleInventory(uiStage: Stage) {
+        if (toggleInventory.any { Gdx.input.isKeyJustPressed(it) }) {
+            inventoryOpened = !inventoryOpened
+            uiStage.actors[1].isVisible = inventoryOpened
+        }
+    }
 }
