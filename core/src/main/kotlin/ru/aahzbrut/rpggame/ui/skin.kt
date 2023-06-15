@@ -1,6 +1,7 @@
 package ru.aahzbrut.rpggame.ui
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
@@ -28,6 +29,16 @@ fun loadSkin(){
 
         label(Labels.FRAME.skinKey) {
             font = skin[Fonts.DEFAULT]
+            background = skin[Drawables.FRAME_FOREGROUND].apply {
+                leftWidth = 3f
+                rightWidth = 3f
+                topHeight = 1f
+            }
+        }
+
+        label(Labels.TITLE.skinKey) {
+            font = skin[Fonts.CAPTION]
+            fontColor = Color.SLATE
             background = skin[Drawables.FRAME_FOREGROUND].apply {
                 leftWidth = 3f
                 rightWidth = 3f

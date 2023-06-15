@@ -1,5 +1,8 @@
 package ru.aahzbrut.rpggame
 
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Fixture
 import com.badlogic.gdx.scenes.scene2d.Stage
@@ -16,4 +19,19 @@ fun Vector2.abs(): Vector2 = this.apply {
 fun Vector2.reproject(from: Stage, to: Stage) {
     from.viewport.project(this)
     to.viewport.unproject(this)
+}
+
+fun addGdxInputProcessor(processor: InputProcessor) {
+    val currProcessor = Gdx.input.inputProcessor
+    if (currProcessor == null) {
+        Gdx.input.inputProcessor = processor
+    } else {
+        if (currProcessor is InputMultiplexer) {
+            if (processor !in currProcessor.processors) {
+                currProcessor.addProcessor(processor)
+            }
+        } else {
+            Gdx.input.inputProcessor = InputMultiplexer(currProcessor, processor)
+        }
+    }
 }

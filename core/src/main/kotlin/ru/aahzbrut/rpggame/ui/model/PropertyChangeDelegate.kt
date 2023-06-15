@@ -12,5 +12,3 @@ class PropertyChangeDelegate<T : Any>(initialValue: T) {
         thisRef.notify(property, value)
     }
 }
-
-inline fun <reified T : Any> propertyNotify(initialValue: T): PropertyChangeDelegate<T> = PropertyChangeDelegate(initialValue)

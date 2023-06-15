@@ -11,6 +11,8 @@ import ru.aahzbrut.rpggame.component.ImageComponent
 import ru.aahzbrut.rpggame.component.PlayerComponent
 import ru.aahzbrut.rpggame.event_bus.EventBus
 import ru.aahzbrut.rpggame.event_bus.event.MapChangedEvent
+import kotlin.math.max
+import kotlin.math.min
 
 class CameraFollowSystem(
     eventBus: EventBus = inject(),
@@ -28,14 +30,19 @@ class CameraFollowSystem(
 
     @Suppress("kotlin:S6518")
     override fun onTickEntity(entity: Entity) {
-        val viewWidth = camera.viewportWidth * 0.5f
-        val viewHeight = camera.viewportHeight * 0.5f
+        val viewHalfWidth = camera.viewportWidth * 0.5f
+        val viewHalfHeight = camera.viewportHeight * 0.5f
+
+        val cameraMinWidth = min(viewHalfWidth,mapWidth - viewHalfWidth)
+        val cameraMaxWidth = max(viewHalfWidth, mapWidth - viewHalfWidth)
+        val cameraMinHeight = min(viewHalfHeight,mapHeight - viewHalfHeight)
+        val cameraMaxHeight = max(viewHalfHeight, mapHeight - viewHalfHeight)
 
         entity[ImageComponent].let { imageComponent ->
             imageComponent.image.run {
                 camera.position.set(
-                    x.coerceIn(viewWidth, mapWidth - viewWidth),
-                    y.coerceIn(viewHeight, mapHeight - viewHeight),
+                    x.coerceIn(cameraMinWidth, cameraMaxWidth),
+                    y.coerceIn(cameraMinHeight, cameraMaxHeight),
                     camera.position.z
                 )
             }
