@@ -116,11 +116,7 @@ class InventoryView(
 
     }
 
-    private fun onItemDropped(
-        sourceSlot: InventorySlot,
-        targetSlot: InventorySlot,
-        itemModel: ItemModel,
-    ) {
+    private fun onItemDropped(sourceSlot: InventorySlot, targetSlot: InventorySlot, itemModel: ItemModel) {
         if (!targetSlot.isEmpty) sourceSlot.putItem(targetSlot.itemModel)
         targetSlot.putItem(itemModel)
     }
