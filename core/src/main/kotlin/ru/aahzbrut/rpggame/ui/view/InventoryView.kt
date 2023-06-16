@@ -14,8 +14,8 @@ import ru.aahzbrut.rpggame.ui.model.InventoryModel
 import ru.aahzbrut.rpggame.ui.model.ItemModel
 import ru.aahzbrut.rpggame.ui.resource.Drawables
 import ru.aahzbrut.rpggame.ui.resource.Labels
-import ru.aahzbrut.rpggame.ui.view.ext.InventoryDragSource
-import ru.aahzbrut.rpggame.ui.view.ext.InventoryDragTarget
+import ru.aahzbrut.rpggame.ui.view.drag_drop.InventoryDragSource
+import ru.aahzbrut.rpggame.ui.view.drag_drop.InventoryDragTarget
 import ru.aahzbrut.rpggame.ui.widget.InventorySlot
 
 class InventoryView(

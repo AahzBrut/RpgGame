@@ -1,4 +1,4 @@
-package ru.aahzbrut.rpggame.ui.view.ext
+package ru.aahzbrut.rpggame.ui.view.drag_drop
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.*
@@ -13,11 +13,15 @@ class InventoryDragTarget(
     private val onDrop: (InventorySlot, InventorySlot, ItemModel) -> Unit,
 ) : Target(inventorySlot) {
     private val supportedCategory: ItemCategory = inventorySlot.supportedCategory
+    private val isTargetSlotSpecial: Boolean get() = supportedCategory != UNDEFINED
+    private val isTargetSlotContainsItem: Boolean get() = inventorySlot.itemModel != null
+    private val targetInventoryItem: ItemModel? get() = inventorySlot.itemModel
 
     override fun drag(source: Source, payload: Payload, x: Float, y: Float, pointer: Int): Boolean {
         val itemModel = payload.`object` as ItemModel
         val itemCategory = itemModel.category
-        val result = !(supportedCategory != UNDEFINED && itemCategory != supportedCategory)
+        val dragSource = source.asInventorySource()
+        val result = !(isDraggedItemFitsTargetSlot(itemCategory) || isItemInTargetSlotFitsSourceSlot(dragSource))
         if (!result) payload.dragActor.color = Color.RED
         return result
     }
@@ -33,4 +37,12 @@ class InventoryDragTarget(
             payload.`object` as ItemModel
         )
     }
+
+    private fun isItemInTargetSlotFitsSourceSlot(dragSource: InventoryDragSource) =
+        dragSource.isSourceSlotSpecial && isTargetSlotContainsItem && targetInventoryItem?.category != dragSource.supportedCategory
+
+    private fun isDraggedItemFitsTargetSlot(itemCategory: ItemCategory) =
+        isTargetSlotSpecial && itemCategory != supportedCategory
+
+    private fun Source.asInventorySource() = this as InventoryDragSource
 }

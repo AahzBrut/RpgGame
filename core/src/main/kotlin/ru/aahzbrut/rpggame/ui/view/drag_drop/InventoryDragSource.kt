@@ -1,10 +1,11 @@
-package ru.aahzbrut.rpggame.ui.view.ext
+package ru.aahzbrut.rpggame.ui.view.drag_drop
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.*
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target
+import ru.aahzbrut.rpggame.data.ItemCategory
 import ru.aahzbrut.rpggame.ui.model.ItemModel
 import ru.aahzbrut.rpggame.ui.widget.InventorySlot
 
@@ -12,6 +13,8 @@ class InventoryDragSource(
     private val dnd: DragAndDrop,
     val inventorySlot: InventorySlot
 ) : Source(inventorySlot) {
+    val isSourceSlotSpecial: Boolean get() = inventorySlot.supportedCategory != ItemCategory.UNDEFINED
+    val supportedCategory: ItemCategory get() = inventorySlot.supportedCategory
 
     override fun dragStart(event: InputEvent?, x: Float, y: Float, pointer: Int): Payload? {
         return inventorySlot.itemModel?.let {
