@@ -21,15 +21,33 @@ class InventoryModel(
         with(world) {
             if (event.receiver has PlayerComponent) {
                 val playerInventory = event.receiver[InventoryComponent]
-                playerItems = playerInventory.items.filterNotNull().map {
+                playerItems = playerInventory.items.map {
                     val item = it[ItemComponent]
                     ItemModel(
-                        event.item.id,
+                        it,
                         item.itemType.category,
                         item.itemType.atlasKey,
                         item.slotIndex,
                         item.isEquipped
                     )
+                }
+            }
+        }
+    }
+
+    fun putOrEquipItem(item: ItemModel, slotIndex: Int, isEquipped: Boolean) {
+        with(world){
+            item.entity[ItemComponent].run {
+                this.slotIndex = if (isEquipped) -1 else slotIndex
+                this.isEquipped = isEquipped
+            }
+
+            val allInventories = family { all(InventoryComponent) }
+
+            allInventories.forEach {character->
+                character[InventoryComponent].items.forEach {item->
+                    val itemComponent = item[ItemComponent]
+                    println("Item: ${itemComponent.itemType}, Slot: ${itemComponent.slotIndex}, Equipped: ${itemComponent.isEquipped}")
                 }
             }
         }

@@ -19,7 +19,7 @@ import ru.aahzbrut.rpggame.ui.view.drag_drop.InventoryDragTarget
 import ru.aahzbrut.rpggame.ui.widget.InventorySlot
 
 class InventoryView(
-    model: InventoryModel,
+    private val model: InventoryModel,
     skin: Skin,
 ) : Table(skin), KTable {
     private val inventorySlots = mutableListOf<InventorySlot>()
@@ -43,7 +43,7 @@ class InventoryView(
             }
 
             table { inventoryCells ->
-                for (i in 1..InventoryComponent.CAPACITY) {
+                for (i in 1..InventoryComponent.INVENTORY_CAPACITY) {
                     this@InventoryView.inventorySlots += inventorySlot(skin = skin) { slotCell ->
                         slotCell.padBottom(2f)
                         if (i % 6 == 0) {
@@ -98,9 +98,9 @@ class InventoryView(
 
         initDragAndDrop()
 
-        model.onPropertyChange(InventoryModel::playerItems){items->
+        model.onPropertyChange(InventoryModel::playerItems) { items ->
             clearInventoryAndGear()
-            items.forEach {item ->
+            items.forEach { item ->
                 if (item.isEquipped) {
                     equipItem(item)
                 } else {
@@ -110,7 +110,7 @@ class InventoryView(
         }
     }
 
-    fun putItemInInventory(model: ItemModel) {
+    private fun putItemInInventory(model: ItemModel) {
         inventorySlots[model.slotIndex].putItem(model)
     }
 
@@ -135,9 +135,24 @@ class InventoryView(
     }
 
     private fun onItemDropped(sourceSlot: InventorySlot, targetSlot: InventorySlot, itemModel: ItemModel) {
-        if (!targetSlot.isEmpty) sourceSlot.putItem(targetSlot.itemModel)
-        targetSlot.putItem(itemModel)
+        targetSlot.itemModel?.let {targetItem ->
+            putItem(targetItem, sourceSlot)
+        }
+
+        putItem(itemModel, targetSlot)
     }
+
+    private fun putItem(item: ItemModel, slot: InventorySlot) {
+        slot.putItem(item)
+        model.putOrEquipItem(item, getSlotIndex(slot), slot.isEquipmentSlot)
+    }
+
+    private fun getSlotIndex(slot: InventorySlot) =
+        if (slot.isEquipmentSlot) {
+            equipmentSlots.indexOf(slot)
+        } else {
+            inventorySlots.indexOf(slot)
+        }
 
     private fun clearInventoryAndGear() {
         inventorySlots.forEach { it.putItem(null) }

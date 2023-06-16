@@ -7,10 +7,10 @@ import ru.aahzbrut.rpggame.data.ItemType
 
 class InventoryComponent : Component<InventoryComponent> {
     companion object : ComponentType<InventoryComponent>() {
-        const val CAPACITY = 24
+        const val INVENTORY_CAPACITY = 24
     }
 
-    val items = Array<Entity?>(CAPACITY) { null }
+    val items = mutableSetOf<Entity>()
     val itemsToAdd = mutableListOf<ItemType>()
 
     override fun type() = InventoryComponent

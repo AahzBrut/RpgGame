@@ -30,6 +30,7 @@ class InventorySlot(
         else -> UNDEFINED
     }
     val isEmpty: Boolean get() = itemModel == null
+    val isEquipmentSlot: Boolean get() = slotItemBackground != null
 
     init {
         this += backgroundImage.apply {

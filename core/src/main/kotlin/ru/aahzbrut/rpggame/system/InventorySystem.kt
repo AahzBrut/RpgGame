@@ -21,16 +21,14 @@ class InventorySystem(
         inventory.itemsToAdd.forEach { itemType ->
             var slotIndex: Int
             val itemEntity = world.entity { item ->
-                slotIndex = findFirstEmptySlot(inventory.items)
-                if (slotIndex == -1) return
+                slotIndex = inventory.items.size
                 item += ItemComponent(itemType, slotIndex, false)
-                inventory.items[slotIndex] = item
+                inventory.items.add(item)
             }
             eventBus.fire(GotItemEvent(entity, itemEntity))
+            if (inventory.items.size == InventoryComponent.INVENTORY_CAPACITY) return@forEach
         }
 
         inventory.itemsToAdd.clear()
     }
-
-    private fun findFirstEmptySlot(slots: Array<Entity?>): Int = slots.indexOfFirst { it == null }
 }

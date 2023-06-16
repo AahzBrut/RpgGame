@@ -12,11 +12,9 @@ import ktx.scene2d.actors
 import ru.aahzbrut.rpggame.UI_WINDOW_HEIGHT
 import ru.aahzbrut.rpggame.UI_WINDOW_WIDTH
 import ru.aahzbrut.rpggame.addGdxInputProcessor
-import ru.aahzbrut.rpggame.data.ItemCategory
 import ru.aahzbrut.rpggame.event_bus.EventBus
 import ru.aahzbrut.rpggame.ui.inventoryView
 import ru.aahzbrut.rpggame.ui.model.InventoryModel
-import ru.aahzbrut.rpggame.ui.model.ItemModel
 import ru.aahzbrut.rpggame.ui.view.InventoryView
 
 class InventoryScreen : KtxScreen, KtxInputAdapter {
@@ -43,13 +41,6 @@ class InventoryScreen : KtxScreen, KtxInputAdapter {
 
             Gdx.input.isKeyJustPressed(Input.Keys.D) -> {
                 stage.isDebugAll = !stage.isDebugAll
-            }
-
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_1) -> {
-                inventoryView.putItemInInventory(ItemModel(0, ItemCategory.BOOTS, "boots", 0, false))
-            }
-            Gdx.input.isKeyJustPressed(Input.Keys.NUM_2) -> {
-                inventoryView.putItemInInventory(ItemModel(0, ItemCategory.HELMET, "helmet", 0, false))
             }
         }
 
