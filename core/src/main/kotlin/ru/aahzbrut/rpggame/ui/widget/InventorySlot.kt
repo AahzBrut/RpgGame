@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Scaling
 import ktx.actors.alpha
 import ktx.actors.plusAssign
 import ktx.scene2d.KGroup
+import ktx.scene2d.image
 import ru.aahzbrut.rpggame.data.ItemCategory
 import ru.aahzbrut.rpggame.data.ItemCategory.*
 import ru.aahzbrut.rpggame.ui.get
@@ -33,7 +34,7 @@ class InventorySlot(
     val isEquipmentSlot: Boolean get() = slotItemBackground != null
 
     init {
-        this += backgroundImage.apply {
+        image(backgroundImage.drawable){
             setFillParent(true)
             setScaling(Scaling.contain)
         }

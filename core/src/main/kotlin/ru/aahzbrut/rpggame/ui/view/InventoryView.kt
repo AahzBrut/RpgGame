@@ -44,7 +44,7 @@ class InventoryView(
 
             table { inventoryCells ->
                 for (i in 1..InventoryComponent.INVENTORY_CAPACITY) {
-                    this@InventoryView.inventorySlots += inventorySlot(skin = skin) { slotCell ->
+                    this@InventoryView.inventorySlots += inventorySlot { slotCell ->
                         slotCell.padBottom(2f)
                         if (i % 6 == 0) {
                             slotCell.row()
