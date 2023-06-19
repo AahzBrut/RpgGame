@@ -131,7 +131,6 @@ class InventoryView(
             dnd.addSource(InventoryDragSource(dnd, slot))
             dnd.addTarget(InventoryDragTarget(slot, ::onItemDropped))
         }
-
     }
 
     private fun onItemDropped(sourceSlot: InventorySlot, targetSlot: InventorySlot, itemModel: ItemModel) {
