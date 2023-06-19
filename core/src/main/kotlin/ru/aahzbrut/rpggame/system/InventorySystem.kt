@@ -20,12 +20,12 @@ class InventorySystem(
 
         inventory.itemsToAdd.forEach { itemType ->
             var slotIndex: Int
-            val itemEntity = world.entity { item ->
+            world.entity { item ->
                 slotIndex = inventory.items.size
                 item += ItemComponent(itemType, slotIndex, false)
                 inventory.items.add(item)
             }
-            eventBus.fire(GotItemEvent(entity, itemEntity))
+            eventBus.fire(GotItemEvent(entity))
             if (inventory.items.size == InventoryComponent.INVENTORY_CAPACITY) return@forEach
         }
 
